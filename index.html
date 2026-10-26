@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.31</title>
+<title>WTVFC Digital Signage v4.32</title>
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -110,15 +110,17 @@ button,input,textarea{font:inherit}
 .kitchen .headline{font-size:145px;line-height:.95;font-weight:700;margin:0;white-space:nowrap}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
-.kitchen .menu-layout{position:absolute;left:132px;right:166px;top:332px;display:flex;align-items:center;gap:42px}
-.kitchen .food-spot{position:relative;width:640px;height:470px;display:flex;align-items:center;justify-content:center;flex:0 0 640px}
-.kitchen .food-spot img{max-width:100%;max-height:100%;display:block;filter:drop-shadow(0 16px 22px rgba(0,0,0,.30));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
-@keyframes kitchen-food-rock{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
-.kitchen .dish-wrap{position:relative;top:auto;left:auto;width:560px;text-align:left;flex:1}
-.kitchen .dish-title{font-size:106px;line-height:1;font-weight:700;margin:0 0 18px}
-.kitchen .dish-line{font-size:72px;line-height:1.04;font-weight:700;margin:0}
-.kitchen .price-card{position:relative;right:auto;top:auto;width:430px;height:320px;display:flex;align-items:center;justify-content:center;flex:0 0 430px}
-.kitchen .price{font-size:220px;line-height:.9;font-weight:700;margin:0}
+/* v4.32: Approved three-column kitchen layout (1920x1080 stage) */
+.kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
+.kitchen .food-spot{position:absolute;left:180px;top:407px;width:520px;height:380px;display:flex;align-items:center;justify-content:center}
+.kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
+@keyframes kitchen-food-rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.kitchen .dish-wrap{position:absolute;left:777px;top:360px;width:540px;text-align:left}
+.kitchen .dish-title{font-size:88px;line-height:.95;font-weight:700;margin:0 0 25px;max-width:480px;overflow-wrap:normal}
+.kitchen .dish-line{font-size:57px;line-height:1.04;font-weight:700;margin:0;white-space:nowrap}
+.kitchen .price-card{position:absolute;right:182px;top:461px;width:371px;height:274px;display:flex;align-items:center;justify-content:center;border-radius:32px}
+.kitchen .price{font-size:178px;line-height:1;font-weight:700;margin:0}
+@media (prefers-reduced-motion:reduce){.kitchen .food-spot img{animation:none!important}}
 /* v4.30: unattended signage hides idle mouse even in Chrome --kiosk mode.
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
@@ -398,9 +400,9 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
         <img src="comic_style_cheesesteak_meal_burst.png" alt="">
       </div>
       <div class="dish-wrap">
-        <h2 class="dish-title" id="kitchenDish">Prime Rib</h2>
-        <p class="dish-line" id="kitchenLine1">with mashed potatoes</p>
-        <p class="dish-line" id="kitchenLine2">and steamed vegetable</p>
+        <h2 class="dish-title" id="kitchenDish">Cheese Steak Hoagie</h2>
+        <p class="dish-line" id="kitchenLine1">with french fries</p>
+        <p class="dish-line" id="kitchenLine2">and fountain drink</p>
       </div>
       <div class="price-card tint-box"><div class="money price" id="kitchenPrice"></div></div>
     </div>
@@ -408,7 +410,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.31">v4.31</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.32">v4.32</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -416,7 +418,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.31</h2>
+  <h2>WTVFC Digital Signage · v4.32</h2>
   <p>Comma rendering cleanup, warmer near-white gold secondary copy, and refined metallic amount separation.</p>
   <h3>Screen Timing (seconds)</h3>
   <div class="grid2">
@@ -461,10 +463,10 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
     earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$800', earlyGame5:'$1000',
     promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
-    kitchenDishInput:'Prime Rib', kitchenLine1Input:'with mashed potatoes', kitchenLine2Input:'and steamed vegetable', kitchenPriceInput:'$9.99'
+    kitchenDishInput:'Cheese Steak Hoagie', kitchenLine1Input:'with french fries', kitchenLine2Input:'and fountain drink', kitchenPriceInput:'$10'
   };
-  var storeKey='wtvfc_signage_v41';
-  var legacyKeys=['wtvfc_signage_v40'];
+  var storeKey='wtvfc_signage_development_v432';
+  var legacyKeys=[]; // Development settings must not overwrite production signage settings.
   var data=Object.assign({},defaults);
   try{
     var saved=null;
