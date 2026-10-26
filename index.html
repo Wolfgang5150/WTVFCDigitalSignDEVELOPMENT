@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WTVFC Digital Signage v4.30</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
+body{font-family:Arial,Helvetica,sans-serif;user-select:none}
+button,input,textarea{font:inherit}
+.viewport{position:fixed;inset:0;display:grid;place-items:center;background:#05070b}
+.frame{position:relative;overflow:hidden;background:#000}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;background:#0a0f1f;overflow:hidden}
+.scene{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.scene.active{opacity:1;pointer-events:auto}
+.scene-bg,.scene-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.blue-bg{background:radial-gradient(circle at 30% 20%, #2c69c8 0, #17428d 25%, #0a1f52 58%, #071532 100%)}
+.content{position:absolute;inset:0;z-index:3}
+.serif{font-family:Times, 'Times New Roman', serif;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.55)}
+.money{font-family:Times, 'Times New Roman', serif;font-weight:700;color:#fff;line-height:1;text-shadow:0 4px 14px rgba(0,0,0,.58);white-space:nowrap;display:inline-block;overflow:visible;padding-bottom:.10em}
+.sup-dollar{display:inline-block;font-size:.42em;position:relative;top:-0.56em;margin-right:.04em;vertical-align:baseline}
+.sup-cents{display:inline-block;font-size:.42em;position:relative;top:-0.52em;margin-left:.03em;vertical-align:baseline}
+.amount-plus{display:inline-block;font-size:.42em;position:relative;top:-0.55em;margin-left:.06em;vertical-align:baseline}
+.tint-box{background:rgba(4,17,48,.50);border:2px solid rgba(255,255,255,.42);border-radius:34px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 10px 30px rgba(0,0,0,.14)}
+.center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
+.screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* Welcome screen restored */
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png') center center/cover no-repeat}
+.welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
+ font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
+ color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
+/* v4.30: EXACT letter-by-letter neon behavior from original animation playground.
+   Animate only letters inside welcome-message, never date/time. */
+.welcome-message .neon-letter{display:inline-block;white-space:pre;vertical-align:baseline;}
+.welcome.play-intro .welcome-message .neon-letter{
+  animation:wtvfc-neon-letter 1.9s ease both;
+  animation-delay:calc(var(--i)*35ms);
+}
+@keyframes wtvfc-neon-letter{
+  0%,8%,14%,24%{opacity:.15;text-shadow:none}
+  10%,18%,26%{opacity:.85;text-shadow:0 0 13px #ffd25c}
+  45%,100%{opacity:1;text-shadow:0 0 7px #ffeec6,0 0 17px #fdbe51}
+}
+@media(prefers-reduced-motion:reduce){.welcome.play-intro .welcome-message .neon-letter{animation:none;opacity:1}}
+/* One combined date • time line; retains the original welcome date gold. */
+.welcome-info {position:absolute;top:572px;left:72px;right:72px;display:flex;align-items:center;
+ justify-content:center;gap:22px;white-space:nowrap;font-size:56px;line-height:1.1;font-weight:800;
+ letter-spacing:1.5px;text-transform:uppercase;color:#ffd78f;text-shadow:0 4px 12px #000;}
+.welcome-date,.welcome-clock {position:static;white-space:nowrap;color:inherit;font:inherit;letter-spacing:inherit;
+ text-shadow:inherit;font-variant-numeric:tabular-nums;}
+.welcome-bullet {font-size:.86em;line-height:1;opacity:.92;transform:translateY(-2px)}
+.clock-colon {display:inline-block;animation:wtvfc-colon-blink 1s steps(1,end) infinite;}
+@keyframes wtvfc-colon-blink {0%,49%{opacity:1}50%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.clock-colon{animation:none;opacity:1}}
+.welcome .weather-wrap {position:absolute;left:100px;right:100px;bottom:72px;height:316px;padding:24px 34px;
+ border:1px solid rgba(255,211,130,.66);border-radius:18px;
+ background:linear-gradient(180deg,rgba(15,10,16,.95),rgba(28,10,14,.96));
+ box-shadow:0 15px 32px #0009, inset 0 0 35px #e66f2424;}
+.welcome .weather-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.welcome .weather-title{font-size:28px;letter-spacing:6px;text-transform:uppercase;color:#ffd26c;font-weight:1000}
+.welcome .weather-title span{text-transform:none;letter-spacing:1px;color:#fff1cd;font-weight:700}
+.welcome .weather-updated{font-size:18px;color:#e4d0ab}
+.welcome .forecast-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.welcome .slot{padding:14px 12px 16px;border-radius:16px;border:1px solid rgba(255,196,88,.20);background:rgba(255,255,255,.03);text-align:center;min-height:176px;display:flex;flex-direction:column;justify-content:center}
+.welcome .wx-time{font-size:28px;line-height:1;font-weight:1000;color:#fff1c8}
+.welcome .wx-main{display:flex;align-items:center;justify-content:center;gap:12px}
+.welcome .wx-icon{width:62px;height:62px;display:flex;align-items:center;justify-content:center;margin:6px 0 2px;flex:0 0 62px;color:#ffd56d}
+.welcome .wx-icon svg{width:62px;height:62px;overflow:visible;filter:drop-shadow(0 2px 4px rgba(0,0,0,.34))}
+.welcome .wx-temp{font-size:40px;line-height:1;font-weight:900;color:#fff7e5}
+.welcome .wx-pop{margin-top:10px;font-size:20px;line-height:1;font-weight:700;color:#e8edf8}
+/* Animated weather icons */
+.awx .sun-core{fill:#ffd86a}.awx .sun-ray{stroke:#ffd86a;stroke-width:3.6;stroke-linecap:round}.awx .cloud-fill{fill:#eef4ff}.awx .cloud-stroke{stroke:#dce6f7;stroke-width:2;fill:none}.awx .drop{stroke:#77c4ff;stroke-width:3.2;stroke-linecap:round}.awx .flake{fill:#eef7ff}.awx .bolt{fill:#ffd04b}.awx .mist{stroke:#dfe8f6;stroke-width:3.2;stroke-linecap:round}.awx .sun-rays{transform-origin:32px 32px;animation:awx-rotate 16s linear infinite}.awx-sun .sun-core,.awx-partly .sun-core{animation:awx-pulse 3.6s ease-in-out infinite}.awx-cloud .cloud-group,.awx-rain .cloud-group,.awx-drizzle .cloud-group,.awx-storm .cloud-group,.awx-snow .cloud-group{animation:awx-drift 4.2s ease-in-out infinite}.awx-rain .d1{animation:awx-rain 1.05s linear -.1s infinite}.awx-rain .d2{animation:awx-rain 1.15s linear -.45s infinite}.awx-rain .d3{animation:awx-rain 1.1s linear -.75s infinite}.awx-drizzle .d1{animation:awx-rain 1.5s linear -.1s infinite}.awx-drizzle .d2{animation:awx-rain 1.7s linear -.45s infinite}.awx-storm .d1{animation:awx-rain 1s linear -.1s infinite}.awx-storm .d2{animation:awx-rain 1.15s linear -.45s infinite}.awx-storm .bolt{animation:awx-flash 2.6s steps(1,end) infinite}.awx-snow .f1{animation:awx-snow 2.5s ease-in-out -.2s infinite}.awx-snow .f2{animation:awx-snow 2.7s ease-in-out -.9s infinite}.awx-snow .f3{animation:awx-snow 2.9s ease-in-out -1.2s infinite}.awx-fog .mist1{animation:awx-fog 5s ease-in-out infinite}.awx-fog .mist2{animation:awx-fog 5.5s ease-in-out -.9s infinite}.awx-fog .mist3{animation:awx-fog 6s ease-in-out -1.6s infinite}.awx-partly .cloud-group{animation:awx-drift 4.4s ease-in-out infinite}.awx-partly .sun-rays{transform-origin:21px 25px;transform-box:view-box}
+@keyframes awx-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes awx-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.92}}
+@keyframes awx-drift{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+@keyframes awx-rain{0%{opacity:0;transform:translateY(-2px)}20%{opacity:1}100%{opacity:0;transform:translateY(8px)}}
+@keyframes awx-snow{0%{opacity:0;transform:translate(0,-2px)}20%{opacity:1}50%{transform:translate(1px,3px)}100%{opacity:0;transform:translate(-1px,8px)}}
+@keyframes awx-flash{0%,82%,100%{opacity:0}84%,87%{opacity:1}88%,90%{opacity:0}91%,94%{opacity:1}95%{opacity:0}}
+@keyframes awx-fog{0%,100%{transform:translateX(-2px);opacity:.86}50%{transform:translateX(3px);opacity:1}}
+/* Prefer macOS Times Bold (Times-Bold), not Times New Roman Bold. Welcome untouched. */
+.scene:not(.welcome) .content{font-family:Times,'Times New Roman',serif;font-weight:700}
+/* Screen 2: Tonight's Jackpot */
+.jackpot .title{font-size:120px;line-height:1.02;margin:0 0 14px;font-weight:700}
+.jackpot .amount{font-size:360px;line-height:.92;margin:0;overflow:visible}
+.jackpot .count{font-size:72px;line-height:1.05;margin-top:44px;font-weight:700}
+/* Screen 3: Tonight games, fixed explicit layout */
+.games .box{position:absolute;width:760px;height:338px;padding:22px 28px;text-align:center}
+.games .box.bank{left:150px;top:168px}.games .box.quickie{left:1010px;top:168px}
+.games .box.all{left:150px;top:554px}.games .box.station{left:1010px;top:554px}
+.games .label{font-size:62px;line-height:1.02;font-weight:700;margin:0 0 6px}
+.games .label.single{margin-top:4px}
+.games .amount{display:flex;align-items:flex-end;justify-content:center;gap:0;line-height:.92;margin-top:2px;overflow:visible}
+.games .amount.bankamt{font-size:178px}.games .amount.quickieamt{font-size:152px}.games .amount.allamt{font-size:178px}.games .amount.stationamt{font-size:174px}
+.games .note{position:absolute;left:26px;right:26px;bottom:12px;font-size:54px;line-height:1.02;font-weight:700}
+.games .note.small{font-size:50px}
+/* Screen 4: Early bird, fixed explicit layout */
+.earlybird .title{position:absolute;left:0;right:0;top:187px;text-align:center;font-size:118px;line-height:1;font-weight:700;margin:0}
+.earlybird .card{position:absolute;width:680px;height:360px;padding:26px 30px;text-align:center}
+.earlybird .card.left{left:240px;top:364px}.earlybird .card.right{left:1000px;top:364px}
+.earlybird .label{font-size:86px;line-height:1;font-weight:700;margin:0 0 12px}
+.earlybird .amount{font-size:226px;line-height:.92;margin:0;overflow:visible}
+/* Screen 5: promo */
+.promo .date{font-size:124px;line-height:1;margin:0 0 4px;font-weight:700}
+.promo .title{font-size:138px;line-height:.96;margin:0 0 12px;font-weight:700}
+.promo .amount{font-size:340px;line-height:.88;margin:0 0 28px}
+.promo .note{font-size:54px;line-height:1.16;font-weight:700;max-width:1700px;margin:0 auto}
+/* Screen 6: kitchen */
+.kitchen .frame-box{position:absolute;left:96px;right:96px;top:96px;bottom:96px;background:rgba(8,18,34,.50);border-radius:46px;border:2px solid rgba(255,255,255,.18);box-shadow:0 18px 54px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.06)}
+.kitchen .headline-wrap{position:absolute;left:150px;right:150px;top:160px;display:flex;align-items:flex-end;gap:26px}
+.kitchen .headline{font-size:145px;line-height:.95;font-weight:700;margin:0;white-space:nowrap}
+.kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
+.kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
+.kitchen .dish-wrap{position:absolute;left:160px;top:431px;width:865px;text-align:center}
+.kitchen .dish-title{font-size:106px;line-height:1;font-weight:700;margin:0 0 18px}
+.kitchen .dish-line{font-size:72px;line-height:1.04;font-weight:700;margin:0}
+.kitchen .price-card{position:absolute;right:166px;top:374px;width:620px;height:410px;display:flex;align-items:center;justify-content:center}
+.kitchen .price{font-size:250px;line-height:.9;font-weight:700;margin:0}
+/* v4.30: unattended signage hides idle mouse even in Chrome --kiosk mode.
+   Any pointer movement immediately restores it; controls/settings keep it visible. */
+body.cursor-idle, body.cursor-idle * { cursor:none !important; }
+/* v4.30: discreet version-triggered controls; hidden even in Chrome kiosk mode. */
+.version-trigger{position:fixed;right:8px;bottom:5px;z-index:35;padding:7px 5px;background:transparent;border:0;border-radius:5px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:200;font-size:14px;letter-spacing:.04em;line-height:1;color:rgba(255,255,255,.57);text-shadow:0 1px 2px rgba(0,0,0,.8);cursor:pointer}
+.version-trigger:hover,.version-trigger:focus-visible,.version-trigger[aria-expanded="true"]{color:#fff2c5;background:rgba(8,13,25,.75);outline:1px solid rgba(255,218,140,.32)}
+.controls{position:fixed;right:12px;bottom:40px;z-index:35;display:flex;flex-direction:column;gap:5px;padding:9px;border:1px solid rgba(255,215,143,.45);border-radius:12px;background:rgba(11,19,36,.96);box-shadow:0 8px 28px #000b;min-width:165px}
+.controls[hidden]{display:none!important}
+.controls button{width:100%;text-align:left}
+.controls button,.panel button{border:1px solid #6a7dab;border-radius:8px;padding:10px 14px;background:#18233a;color:#fff;font-weight:700;cursor:pointer}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);background:#0e1728;color:#fff;padding:22px;overflow:auto;z-index:40;display:none;box-shadow:-18px 0 40px rgba(0,0,0,.55)}.panel.open{display:block}
+.panel h2{margin:0 0 4px}.panel h3{margin:20px 0 8px;color:#f2d38a}.panel p{color:#d7deef;font-size:13px;line-height:1.45}
+.panel label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}
+.panel input,.panel textarea{width:100%;padding:9px 10px;border-radius:6px;border:1px solid #60708f;background:#1d2940;color:#fff}
+.panel textarea{min-height:68px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.small{font-size:12px;color:#c8d2ea}
+
+/* v4.5: Gold typographic hierarchy; welcome styling unchanged. */
+.scene:not(.welcome) .content.serif,
+.scene:not(.welcome) .content.serif .title,
+.scene:not(.welcome) .content.serif .date,
+.scene:not(.welcome) .content.serif .count,
+.scene:not(.welcome) .content.serif .label,
+.scene:not(.welcome) .content.serif .note,
+.scene:not(.welcome) .content.serif .headline,
+.scene:not(.welcome) .content.serif .dish-title,
+.scene:not(.welcome) .content.serif .dish-line { color:#ffd78f; }
+.scene:not(.welcome) .money,
+.scene:not(.welcome) .money .sup-dollar,
+.scene:not(.welcome) .money .sup-cents,
+.scene:not(.welcome) .money .amount-plus { color:#fff; }
+
+/* v4.6: targeted label changes. Welcome remains unchanged. */
+.scene.promo .content.serif .date,
+.scene.kitchen .content.serif .headline,
+.scene.kitchen .content.serif .dish-title { color:#ffffff; }
+.scene.jackpot .content.serif .title {
+  text-shadow:0 0 5px rgba(255,255,255,.95),
+              0 0 19px rgba(255,255,255,.62),
+              0 0 42px rgba(255,255,255,.32),
+              0 5px 10px rgba(0,0,0,.85);
+}
+
+/* v4.7: entrance motion. Each effect runs once when a scene becomes active. */
+.scene:not(.welcome) .motion-slam,
+.scene:not(.welcome) .motion-rise,
+.scene:not(.welcome) .motion-gold { animation:none; }
+.scene.play-intro .motion-slam {animation: wtvfc-slam 1.05s cubic-bezier(.19,.95,.27,1) both;transform-origin:center center;}
+.scene.play-intro .motion-rise {animation: wtvfc-rise 1.2s cubic-bezier(.16,1,.3,1) both;}
+/* v4.8: Original glint (superseded by v4.11 gold shimmer).
+   Important: don't let the dark price text-shadow show through the clipped
+   transparent gradient (it created a muddy grey/silver fill in v4.7). */
+.scene.play-intro .motion-gold,
+.scene.play-intro .motion-gold .sup-dollar,
+.scene.play-intro .motion-gold .sup-cents,
+.scene.play-intro .motion-gold .amount-plus {
+  background-image:linear-gradient(100deg,
+    #ffffff 0%, #ffffff 36%,
+    #fff0b8 42%, #ffce46 46%, #fffce7 50%,
+    #ffcb37 54%, #ffeaa6 58%,
+    #ffffff 64%, #ffffff 100%);
+  background-size:300% 100%;
+  background-position:100% 0;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:none;
+  animation:wtvfc-metallic 2.2s ease-in-out .35s 1 both;
+}
+/* Keep just a subtle silhouette shadow separate from the transparent text fill. */
+.scene.play-intro .motion-gold {filter:drop-shadow(0 4px 4px rgba(0,0,0,.30));}
+@keyframes wtvfc-slam {
+  0%{opacity:0;transform:scale(1.6);filter:blur(8px)}
+  29%{opacity:1;transform:scale(.94);filter:blur(0)}
+  43%{transform:scale(1.035)}
+  59%,100%{opacity:1;transform:scale(1);filter:blur(0)}
+}
+@keyframes wtvfc-rise {
+  0%{opacity:0;transform:translateY(56px)}
+  38%{opacity:1;transform:translateY(-5px)}
+  56%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes wtvfc-metallic {
+  0%{background-position:100% 0}
+  100%{background-position:0% 0}
+}
+/* Stagger titles in the four fixed game cards. Never animate the boxes themselves. */
+.scene.games.play-intro .box:nth-of-type(2) .motion-slam{animation-delay:.12s}
+.scene.games.play-intro .box:nth-of-type(3) .motion-slam{animation-delay:.24s}
+.scene.games.play-intro .box:nth-of-type(4) .motion-slam{animation-delay:.36s}
+.scene.games.play-intro .box:nth-of-type(2) .motion-gold,
+.scene.games.play-intro .box:nth-of-type(2) .motion-gold .sup-dollar,
+.scene.games.play-intro .box:nth-of-type(2) .motion-gold .sup-cents,
+.scene.games.play-intro .box:nth-of-type(2) .motion-gold .amount-plus{animation-delay:.55s}
+.scene.games.play-intro .box:nth-of-type(3) .motion-gold,
+.scene.games.play-intro .box:nth-of-type(3) .motion-gold .sup-dollar,
+.scene.games.play-intro .box:nth-of-type(3) .motion-gold .sup-cents,
+.scene.games.play-intro .box:nth-of-type(3) .motion-gold .amount-plus{animation-delay:.75s}
+.scene.games.play-intro .box:nth-of-type(4) .motion-gold,
+.scene.games.play-intro .box:nth-of-type(4) .motion-gold .sup-dollar,
+.scene.games.play-intro .box:nth-of-type(4) .motion-gold .sup-cents,
+.scene.games.play-intro .box:nth-of-type(4) .motion-gold .amount-plus{animation-delay:.95s}
+.scene.promo.play-intro .motion-rise{animation-delay:.26s}
+.scene.promo.play-intro .motion-rise:last-child{animation-delay:.65s}
+.scene.promo.play-intro .motion-gold{animation-delay:.54s}
+@media (prefers-reduced-motion:reduce){
+ .scene.play-intro .motion-slam,.scene.play-intro .motion-rise,.scene.play-intro .motion-gold,
+ .scene.play-intro .motion-gold .sup-dollar,.scene.play-intro .motion-gold .sup-cents,
+ .scene.play-intro .motion-gold .amount-plus{animation:none!important;filter:none!important;opacity:1!important}
+}
+
+/* v4.9+: One continuous shared video across jackpot, games and earlybird. */
+.gold-sequence-video {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;}
+.scene {z-index:1;}
+.scene.jackpot .scene-bg,.scene.games .scene-bg,.scene.earlybird .scene-bg {background:transparent!important;}
+/* Jackpot title stays in the secondary warm light-gold family, with depth but no extra animation beyond Slam. */
+.scene.jackpot .content.serif .title {color:#fff1c6!important;filter:none;}
+/* 7pt equivalent at the native 1920x1080 canvas, very discreet, always visible. */
+.build-version {position:absolute;z-index:12;right:10px;bottom:8px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:14px;font-weight:200;letter-spacing:.04em;color:rgba(255,255,255,.55);line-height:1;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.7);}
+/* v4.30: Polished casino gold. Layered burnished/bright gold bands and
+   overlapping traveling specular glints. No fixed !important background-position:
+   such a rule blocked keyframe motion in the previous version. */
+.scene.play-intro .motion-gold,
+.scene.play-intro .motion-gold .sup-dollar,
+.scene.play-intro .motion-gold .sup-cents,
+.scene.play-intro .motion-gold .amount-plus {
+  background-image:
+    repeating-linear-gradient(109deg,
+      transparent 0%, transparent 10%,
+      rgba(255,255,233,.0) 13%, rgba(255,255,231,.98) 15%,
+      rgba(255,239,154,.60) 17%, transparent 20%,
+      transparent 39%, rgba(255,246,186,.10) 41%,
+      rgba(255,255,240,.94) 43%, rgba(255,217,82,.65) 45%,
+      transparent 48%, transparent 100%),
+    linear-gradient(180deg,
+      #fff8dc 0%,#ffeeb0 13%,#e8b649 29%,
+      #ffe589 42%,#fffbe9 49%,#edc458 57%,
+      #d5a02f 72%,#ffe092 85%,#fff2c4 100%) !important;
+  background-size:300% 100%,100% 100% !important;
+  /* The two layers move independently: flowing reflections across fixed gold texture. */
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  color:#e7b13b !important;
+  text-shadow:none !important;
+  animation:wtvfc-casino-gold 3.0s linear infinite !important;
+}
+/* v4.30: sharply defined raised lettering, not a diffuse halo.
+   A hard bronze offset shadow gives depth; a narrowly feathered champagne
+   light adds separation without softening the glyph edge. */
+.scene.play-intro .motion-gold {
+  /* One crisp dark offset plus a restrained luminous edge. Avoid stacked
+     long-offset shadows: they draw false tails beneath commas. */
+  filter:drop-shadow(2px 3px 1px rgba(16,9,3,.94))
+         drop-shadow(0 0 4px rgba(255,242,184,.48)) !important;
+}
+.scene.play-intro .motion-gold,
+.scene.play-intro .motion-gold .sup-dollar,
+.scene.play-intro .motion-gold .sup-cents,
+.scene.play-intro .motion-gold .amount-plus {
+  -webkit-text-stroke:.45px rgba(59,27,0,.75);
+}
+
+@keyframes wtvfc-casino-gold {
+  from {background-position:125% 0,0 0;}
+  to   {background-position:-60% 0,0 0;}
+}
+@media(prefers-reduced-motion:reduce){
+  .scene.play-intro .motion-gold,
+  .scene.play-intro .motion-gold .sup-dollar,
+  .scene.play-intro .motion-gold .sup-cents,
+  .scene.play-intro .motion-gold .amount-plus {animation:none!important;background-position:45% 0,0 0!important;}
+}
+
+/* v4.30: non-price copy on the metallic-gold screens shifts from pure
+   white to a warm near-white gold that better matches the environment. */
+.scene.jackpot .content.serif .title,
+.scene.jackpot .content.serif .count,
+.scene.games .content.serif .label,
+.scene.games .content.serif .note,
+.scene.earlybird .content.serif .title,
+.scene.earlybird .content.serif .label,
+.scene.promo .content.serif .date,
+.scene.promo .content.serif .title,
+.scene.promo .content.serif .note { color:#fff1c6 !important; }
+
+/* v4.30: crisp dimensional shadows for WHITE non-price copy.
+   No filter: Jackpot Slam/Rise & Settle entrance animations stay intact.
+   Welcome, Kitchen, and metallic price nodes are not targeted. */
+.scene.jackpot .content.serif .title,
+.scene.jackpot .content.serif .count,
+.scene.games .content.serif .label,
+.scene.games .content.serif .note,
+.scene.earlybird .content.serif .title,
+.scene.earlybird .content.serif .label,
+.scene.promo .content.serif .date,
+.scene.promo .content.serif .title,
+.scene.promo .content.serif .note {
+  text-shadow:
+    3px 4px 0 rgba(14, 8, 4, .96),
+    6px 8px 5px rgba(0, 0, 0, .78),
+    0 14px 22px rgba(0, 0, 0, .46) !important;
+}
+/* v4.30: kitchen copy gets the same dimensional dark-shadow treatment for depth. */
+.scene.kitchen .content.serif .headline,
+.scene.kitchen .content.serif .dish-title,
+.scene.kitchen .content.serif .dish-line,
+.scene.kitchen .content.serif .money {
+  text-shadow:
+    3px 4px 0 rgba(14, 8, 4, .96),
+    6px 8px 5px rgba(0, 0, 0, .78),
+    0 14px 22px rgba(0, 0, 0, .46) !important;
+}
+</style>
+</head>
+<body>
+<div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4" type="video/mp4"></video>
+<section class="scene welcome active" data-scene="welcome">
+  <div class="scene-bg"></div><div class="content">
+    <div class="welcome-message">Welcome to Monday Night Bingo!</div>
+    <div class="welcome-info">
+      <div class="welcome-date" id="welcomeDateTop">Monday, October 26, 2026</div>
+      <span class="welcome-bullet" aria-hidden="true">•</span>
+      <div class="welcome-clock" id="clockTime">--<span class="clock-colon">:</span>--</div>
+    </div>
+    <div class="weather-wrap">
+      <div class="weather-head">
+        <div class="weather-title">TONIGHT'S FORECAST <span>• Belle Vernon area • Next 4 hours</span></div>
+        <div class="weather-updated" id="weatherUpdated">Weather loading…</div>
+      </div>
+      <div class="forecast-row" id="forecastRow"></div>
+    </div>
+    <div id="weatherStatus" class="screen-reader-status" aria-live="polite"></div>
+  </div>
+</section>
+<section class="scene jackpot" data-scene="jackpot">
+  <div class="scene-bg"></div>
+  <div class="content serif center-stack">
+    <h1 class="title motion-slam">Tonight's Jackpot</h1>
+    <div class="money amount motion-gold" id="jackpotPrize">$1,350</div>
+    <div class="count" id="jackpotNums">in 51 numbers</div>
+  </div>
+</section>
+<section class="scene games" data-scene="games">
+  <div class="scene-bg"></div>
+  <div class="content serif">
+    <div class="box bank tint-box"><div class="label single motion-slam">Breakin' Your Bank</div><div class="money amount bankamt motion-gold" id="bankPrize"></div><div class="note" id="bankEnvelopes">Only 10 envelopes left!</div></div>
+    <div class="box quickie tint-box"><div class="label single motion-slam">Quickie</div><div class="money amount quickieamt motion-gold" id="quickiePrize"></div><div class="note small" id="quickieNums">in 60 numbers</div></div>
+    <div class="box all tint-box"><div class="label single motion-slam">All Nighter</div><div class="money amount allamt motion-gold" id="allNighterPrize"></div><div class="note small" id="allNighterNums">in 17 numbers</div></div>
+    <div class="box station tint-box"><div class="label single motion-slam">Station Bonus</div><div class="money amount stationamt motion-gold" id="stationBonusPrize"></div></div>
+  </div>
+</section>
+<section class="scene earlybird" data-scene="earlybird">
+  <div class="scene-bg"></div>
+  <div class="content serif">
+    <h1 class="title">Early Bird Jackpots</h1>
+    <div class="card left tint-box"><div class="label" id="earlyGame4Label">Game 4</div><div class="money amount motion-gold" id="earlyGame4Prize"></div></div>
+    <div class="card right tint-box"><div class="label" id="earlyGame5Label">Game 5</div><div class="money amount motion-gold" id="earlyGame5Prize"></div></div>
+  </div>
+</section>
+<section class="scene promo" data-scene="promo">
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4" type="video/mp4"></video></div>
+  <div class="content serif center-stack" style="width:1700px;max-width:94%">
+    <h1 class="date motion-slam" id="promoDate">December 7th</h1>
+    <h2 class="title motion-rise">Additional Jackpot</h2>
+    <div class="money amount motion-gold" id="promoAmount">$5,000</div>
+    <div class="note motion-rise" id="promoNote">One free play voucher awarded each week leading up to the jackpot!</div>
+  </div>
+</section>
+<section class="scene kitchen" data-scene="kitchen">
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4" type="video/mp4"></video></div>
+  <div class="content serif">
+    <div class="frame-box" aria-hidden="true"></div>
+    <div class="headline-wrap"><h1 class="headline">Kitchen Special</h1><div class="headline-line"></div></div>
+    <div class="dish-wrap">
+      <h2 class="dish-title" id="kitchenDish">Prime Rib</h2>
+      <p class="dish-line" id="kitchenLine1">with mashed potatoes</p>
+      <p class="dish-line" id="kitchenLine2">and steamed vegetable</p>
+    </div>
+    <div class="price-card tint-box"><div class="money price" id="kitchenPrice"></div></div>
+    <div class="bottom-line"></div>
+  </div>
+</section>
+</div></div></div>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.29">v4.30</button>
+<div class="controls" id="kioskControls" hidden>
+  <button id="prev" type="button">◀ Previous</button>
+  <button id="next" type="button">▶ Next</button>
+  <button id="fullscreen" type="button">⛶ Full screen</button>
+  <button id="settings" type="button">⚙ Settings</button>
+</div>
+<aside id="panel" class="panel">
+  <h2>WTVFC Digital Signage · v4.30</h2>
+  <p>Comma rendering cleanup, warmer near-white gold secondary copy, and refined metallic amount separation.</p>
+  <h3>Screen Timing (seconds)</h3>
+  <div class="grid2">
+    <div><label for="welcomeSeconds">Welcome</label><input id="welcomeSeconds" type="number" min="4" max="120"></div>
+    <div><label for="jackpotSeconds">Tonight's Jackpot</label><input id="jackpotSeconds" type="number" min="4" max="120"></div>
+    <div><label for="gamesSeconds">Tonight Games</label><input id="gamesSeconds" type="number" min="4" max="120"></div>
+    <div><label for="earlybirdSeconds">Early Bird</label><input id="earlybirdSeconds" type="number" min="4" max="120"></div>
+    <div><label for="promoSeconds">December 7 Promo</label><input id="promoSeconds" type="number" min="4" max="120"></div>
+    <div><label for="kitchenSeconds">Kitchen</label><input id="kitchenSeconds" type="number" min="4" max="120"></div>
+  </div>
+  <h3>Welcome</h3>
+  <label for="date">Evening date</label><input id="date">
+  <h3>Tonight's Jackpot</h3>
+  <div class="grid2"><div><label for="jackpot">Amount</label><input id="jackpot"></div><div><label for="jackpotCount">Numbers text</label><input id="jackpotCount"></div></div>
+  <h3>Tonight Games</h3>
+  <div class="grid2">
+    <div><label for="bank">Breakin' Your Bank</label><input id="bank"></div>
+    <div><label for="envelopes">Envelopes text</label><input id="envelopes"></div>
+    <div><label for="quickie">Quickie</label><input id="quickie"></div>
+    <div><label for="quickieCount">Quickie numbers</label><input id="quickieCount"></div>
+    <div><label for="allNighter">All Nighter</label><input id="allNighter"></div>
+    <div><label for="allNighterCount">All Nighter numbers</label><input id="allNighterCount"></div>
+    <div><label for="stationBonus">Station Bonus</label><input id="stationBonus"></div>
+    <div></div>
+  </div>
+  <h3>Early Bird</h3>
+  <div class="grid2"><div><label for="earlyGame4LabelInput">Left label</label><input id="earlyGame4LabelInput"></div><div><label for="earlyGame5LabelInput">Right label</label><input id="earlyGame5LabelInput"></div><div><label for="earlyGame4">Left amount</label><input id="earlyGame4"></div><div><label for="earlyGame5">Right amount</label><input id="earlyGame5"></div></div>
+  <h3>December 7 Additional Jackpot</h3>
+  <div class="grid2"><div><label for="promoDateInput">Date text</label><input id="promoDateInput"></div><div><label for="promoAmountInput">Amount</label><input id="promoAmountInput"></div></div>
+  <label for="promoNoteInput">Voucher note</label><textarea id="promoNoteInput"></textarea>
+  <h3>Kitchen Special</h3>
+  <div class="grid2"><div><label for="kitchenDishInput">Dish title</label><input id="kitchenDishInput"></div><div><label for="kitchenPriceInput">Price</label><input id="kitchenPriceInput"></div></div>
+  <label for="kitchenLine1Input">Line 1</label><input id="kitchenLine1Input"><label for="kitchenLine2Input">Line 2</label><input id="kitchenLine2Input">
+  <div class="row-buttons"><button id="save">Save & Apply</button><button id="reset">Reset Demo</button><button id="close">Close</button></div>
+</aside>
+<script>
+(function(){
+  var defaults={
+    date:'October 26, 2026',
+    welcomeSeconds:'12', jackpotSeconds:'8', gamesSeconds:'10', earlybirdSeconds:'8', promoSeconds:'8', kitchenSeconds:'10',
+    jackpot:'$1,350', jackpotCount:'in 51 numbers',
+    bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
+    earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$800', earlyGame5:'$1000',
+    promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
+    kitchenDishInput:'Prime Rib', kitchenLine1Input:'with mashed potatoes', kitchenLine2Input:'and steamed vegetable', kitchenPriceInput:'$9.99'
+  };
+  var storeKey='wtvfc_signage_v41';
+  var legacyKeys=['wtvfc_signage_v40'];
+  var data=Object.assign({},defaults);
+  try{
+    var saved=null;
+    saved=JSON.parse(localStorage.getItem(storeKey)||'null');
+    if(!saved){ for(var i=0;i<legacyKeys.length;i++){ var test=JSON.parse(localStorage.getItem(legacyKeys[i])||'null'); if(test){ saved=test; break; } } }
+    if(saved&&typeof saved==='object') data=Object.assign(data,saved);
+  }catch(e){}
+  var sceneOrder=['welcome','jackpot','games','earlybird','promo','kitchen'];
+  var durationMap={welcome:'welcomeSeconds', jackpot:'jackpotSeconds', games:'gamesSeconds', earlybird:'earlybirdSeconds', promo:'promoSeconds', kitchen:'kitchenSeconds'};
+  var scenes=[].slice.call(document.querySelectorAll('.scene'));
+  var currentIndex=0,timer=null,paused=false;
+  var panel=document.getElementById('panel');
+  var videos={ promo:document.getElementById('promoVideo'), kitchen:document.getElementById('kitchenVideo') };
+  var goldVideo=document.getElementById('goldSequenceVideo');
+  goldVideo.muted=true; goldVideo.playsInline=true; goldVideo.loop=true;
+  var goldIsActive=false;
+  Object.keys(videos).forEach(function(k){videos[k].loop=false; videos[k].muted=true; videos[k].playsInline=true;});
+  function el(id){return document.getElementById(id)}
+  // Build individual lit letters once. The original demo used 35ms delays per character.
+  // Leave the date/time line as ordinary text; only greeting gets neon.
+  (function prepareWelcomeNeon(){
+    var greet=document.querySelector('.welcome-message');
+    var message=greet.textContent;
+    greet.textContent='';
+    Array.from(message).forEach(function(ch,i){
+      var span=document.createElement('span');
+      span.className='neon-letter';
+      span.style.setProperty('--i',String(i));
+      span.textContent=ch===' '?'\u00a0':ch;
+      greet.appendChild(span);
+    });
+  })();
+  /* Fit natural glyph widths with generous side margins. Only font-size changes;
+     no horizontal transforms. Cap sizes so a shorter date cannot overtake greeting. */
+  function fitWelcomeText(){
+    var greeting=document.querySelector('.welcome-message');
+    var info=document.querySelector('.welcome-info');
+    if(!greeting||!info) return;
+    var target=1660; // 130 px minimum margin on both sides at 1920px
+    function naturalWidth(node){
+      var r=document.createRange(); r.selectNodeContents(node);
+      return r.getBoundingClientRect().width;
+    }
+    greeting.style.fontSize='98px';
+    var gWidth=naturalWidth(greeting);
+    var gSize=gWidth>0 ? Math.min(98,98*target/gWidth) : 90;
+    greeting.style.fontSize=gSize.toFixed(2)+'px';
+    info.style.fontSize='56px';
+    var total=Array.from(info.children).reduce(function(sum,node){return sum+node.getBoundingClientRect().width;},0);
+    var gap=parseFloat(getComputedStyle(info).columnGap)||22;
+    total+=gap*(info.children.length-1);
+    var secondaryTarget=Math.min(target, target*.97);
+    var iSize=total>0 ? Math.min(56,56*secondaryTarget/total,gSize*.68) : 50;
+    info.style.fontSize=iSize.toFixed(2)+'px';
+  }
+  function fit(){var s=Math.min(window.innerWidth/1920,window.innerHeight/1080),f=el('frame'); f.style.width=(1920*s)+'px'; f.style.height=(1080*s)+'px'; el('stage').style.transform='scale('+s+')'; fitWelcomeText();}
+  window.addEventListener('resize',fit); fit();
+  function formatDateText(input){ var d=new Date(input); if(!isNaN(d)) return d.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric', year:'numeric'}); return input; }
+  function moneyHTML(raw, withPlus){
+    raw=String(raw||'').trim();
+    var plus='';
+    if(raw.endsWith('+')){ plus='<span class="amount-plus">+</span>'; raw=raw.slice(0,-1); }
+    var hasDollar=raw.startsWith('$');
+    if(hasDollar) raw=raw.slice(1);
+    var whole=raw, cents='';
+    if(raw.indexOf('.')>-1){ var parts=raw.split('.'); whole=parts[0]; cents=parts[1]; }
+    var out='';
+    if(hasDollar) out+='<span class="sup-dollar">$</span>';
+    out+=whole;
+    if(cents) out+='<span class="sup-cents">.'+cents+'</span>';
+    if(plus) out+=plus;
+    return out;
+  }
+  function setHtml(id, html){ el(id).innerHTML=html; }
+  function setText(id, value){ el(id).textContent=value; }
+  function apply(){
+    setText('welcomeDateTop', formatDateText(data.date));
+    setHtml('jackpotPrize', moneyHTML(data.jackpot));
+    setText('jackpotNums', data.jackpotCount);
+    setHtml('bankPrize', moneyHTML(data.bank)); setText('bankEnvelopes', data.envelopes);
+    setHtml('quickiePrize', moneyHTML(data.quickie)); setText('quickieNums', data.quickieCount);
+    setHtml('allNighterPrize', moneyHTML(data.allNighter)); setText('allNighterNums', data.allNighterCount);
+    setHtml('stationBonusPrize', moneyHTML(data.stationBonus));
+    setText('earlyGame4Label', data.earlyGame4LabelInput); setText('earlyGame5Label', data.earlyGame5LabelInput);
+    setHtml('earlyGame4Prize', moneyHTML(data.earlyGame4)); setHtml('earlyGame5Prize', moneyHTML(data.earlyGame5));
+    setText('promoDate', data.promoDateInput); setHtml('promoAmount', moneyHTML(data.promoAmountInput)); setText('promoNote', data.promoNoteInput);
+    setText('kitchenDish', data.kitchenDishInput); setText('kitchenLine1', data.kitchenLine1Input); setText('kitchenLine2', data.kitchenLine2Input); setHtml('kitchenPrice', moneyHTML(data.kitchenPriceInput));
+    Object.keys(defaults).forEach(function(k){ if(el(k)) el(k).value=data[k]; });
+  }
+  function getDuration(sceneName){ var key=durationMap[sceneName]; return Math.max(4,Math.min(120,Number(data[key])||8)); }
+  function schedule(){ clearTimeout(timer); if(paused||panel.classList.contains('open')||document.hidden) return; timer=setTimeout(function(){show(currentIndex+1);}, getDuration(sceneOrder[currentIndex])*1000); }
+  function stopAllVideos(){ Object.keys(videos).forEach(function(k){ videos[k].pause(); }); }
+  function activateSceneVideo(sceneName){
+    var isGold=['jackpot','games','earlybird'].includes(sceneName);
+    stopAllVideos();
+    if(isGold){
+      if(!goldIsActive){ goldIsActive=true; try{goldVideo.currentTime=0;}catch(e){} goldVideo.playbackRate=1; }
+      var p=goldVideo.play(); if(p&&p.catch)p.catch(function(){});
+      return;
+    }
+    if(goldIsActive){goldVideo.pause();goldIsActive=false;}
+    var v=videos[sceneName]; if(!v) return;
+    var dur=getDuration(sceneName);
+    function go(){try{v.currentTime=0;}catch(e){} var vd=(v.duration&&isFinite(v.duration))?v.duration:dur; v.playbackRate=vd/dur; v.loop=false;var p=v.play();if(p&&p.catch)p.catch(function(){});}
+    if(v.readyState>=1&&v.duration)go(); else {v.addEventListener('loadedmetadata',go,{once:true});v.load();}
+  }
+  function show(n){ currentIndex=(n+sceneOrder.length)%sceneOrder.length; scenes.forEach(function(sc,i){ sc.classList.remove('play-intro'); sc.classList.toggle('active', i===currentIndex); if(i===currentIndex){ void sc.offsetWidth; sc.classList.add('play-intro'); } }); activateSceneVideo(sceneOrder[currentIndex]); schedule(); }
+  function saveData(){ Object.keys(defaults).forEach(function(k){ if(el(k)) data[k]=el(k).value; }); try{localStorage.setItem(storeKey, JSON.stringify(data));}catch(e){} apply(); panel.classList.remove('open'); show(currentIndex); }
+  function resetData(){ data=Object.assign({},defaults); try{localStorage.removeItem(storeKey);}catch(e){} apply(); panel.classList.remove('open'); show(0); }
+  function formatTime(d){ var h=d.getHours(), m=d.getMinutes(), am=h>=12?'PM':'AM'; h=h%12||12; return h+':'+String(m).padStart(2,'0')+' '+am; }
+  function tickClock(){
+    var formatted=formatTime(new Date());
+    var parts=formatted.split(':');
+    // Only the colon blinks; date and clock numbers remain steady.
+    el('clockTime').innerHTML=parts[0]+'<span class="clock-colon">:</span>'+parts.slice(1).join(':');
+  }
+  setInterval(tickClock,1000); tickClock();
+  function weatherIcon(code){
+    if([71,73,75,77,85,86].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-snow" aria-hidden="true"><g class="cloud-group"><path class="cloud-fill" d="M18 41c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/><path class="cloud-stroke" d="M18 41c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/></g><circle class="flake f1" cx="22" cy="50" r="2.5"/><circle class="flake f2" cx="32" cy="53" r="2.5"/><circle class="flake f3" cx="42" cy="50" r="2.5"/></svg>';
+    if([95,96,99].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-storm" aria-hidden="true"><g class="cloud-group"><path class="cloud-fill" d="M17 39c-5.2 0-9.2-3.7-9.2-8.5 0-4.2 3.1-7.7 7.5-8.4 1.8-6.2 7.2-10.5 13.9-10.5 8.2 0 14.9 5.7 16 13.4 4.7.5 8.4 4.2 8.4 8.9 0 5-4.5 9.1-10.1 9.1H17z"/><path class="cloud-stroke" d="M17 39c-5.2 0-9.2-3.7-9.2-8.5 0-4.2 3.1-7.7 7.5-8.4 1.8-6.2 7.2-10.5 13.9-10.5 8.2 0 14.9 5.7 16 13.4 4.7.5 8.4 4.2 8.4 8.9 0 5-4.5 9.1-10.1 9.1H17z"/></g><line class="drop d1" x1="24" y1="42" x2="21" y2="51"/><line class="drop d2" x1="41" y1="42" x2="38" y2="51"/><path class="bolt" d="M31 41h7l-4 8h5l-12 13 4-10h-5z"/></svg>';
+    if([61,63,65,80,81,82].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-rain" aria-hidden="true"><g class="cloud-group"><path class="cloud-fill" d="M18 39c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/><path class="cloud-stroke" d="M18 39c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/></g><line class="drop d1" x1="22" y1="44" x2="19" y2="53"/><line class="drop d2" x1="32" y1="46" x2="29" y2="55"/><line class="drop d3" x1="42" y1="44" x2="39" y2="53"/></svg>';
+    if([51,53,55,56,57].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-drizzle" aria-hidden="true"><g class="cloud-group"><path class="cloud-fill" d="M18 39c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/><path class="cloud-stroke" d="M18 39c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/></g><line class="drop d1" x1="26" y1="45" x2="24" y2="52"/><line class="drop d2" x1="39" y1="45" x2="37" y2="52"/></svg>';
+    if([45,48].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-fog" aria-hidden="true"><line class="mist mist1" x1="14" y1="22" x2="50" y2="22"/><line class="mist mist2" x1="8" y1="32" x2="56" y2="32"/><line class="mist mist3" x1="14" y1="42" x2="50" y2="42"/></svg>';
+    if([1,2].includes(code)) return '<svg viewBox="0 0 64 64" class="awx awx-partly" aria-hidden="true"><g class="sun-rays"><line class="sun-ray" x1="21" y1="7" x2="21" y2="1"/><line class="sun-ray" x1="21" y1="43" x2="21" y2="37"/><line class="sun-ray" x1="3" y1="25" x2="9" y2="25"/><line class="sun-ray" x1="33" y1="25" x2="39" y2="25"/><line class="sun-ray" x1="9" y1="13" x2="13" y2="17"/><line class="sun-ray" x1="29" y1="33" x2="33" y2="37"/><line class="sun-ray" x1="9" y1="37" x2="13" y2="33"/><line class="sun-ray" x1="29" y1="17" x2="33" y2="13"/></g><circle class="sun-core" cx="21" cy="25" r="9"/><g class="cloud-group"><path class="cloud-fill" d="M24 46c-4.8 0-8.7-3.4-8.7-7.7 0-3.8 2.9-7 6.8-7.6 1.6-5.6 6.5-9.5 12.6-9.5 7.4 0 13.4 5.2 14.3 12.1 4.4.5 7.9 3.8 7.9 8.1 0 4.7-4.1 8.6-9.5 8.6H24z"/><path class="cloud-stroke" d="M24 46c-4.8 0-8.7-3.4-8.7-7.7 0-3.8 2.9-7 6.8-7.6 1.6-5.6 6.5-9.5 12.6-9.5 7.4 0 13.4 5.2 14.3 12.1 4.4.5 7.9 3.8 7.9 8.1 0 4.7-4.1 8.6-9.5 8.6H24z"/></g></svg>';
+    if(code===3) return '<svg viewBox="0 0 64 64" class="awx awx-cloud" aria-hidden="true"><g class="cloud-group"><path class="cloud-fill" d="M18 41c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/><path class="cloud-stroke" d="M18 41c-5.6 0-10-4-10-9.1 0-4.5 3.4-8.3 8.1-9 1.9-6.7 7.7-11.3 14.9-11.3 8.7 0 15.7 6.1 16.8 14.2 5 .6 8.9 4.6 8.9 9.4 0 5.3-4.7 9.8-10.8 9.8H18z"/></g></svg>';
+    return '<svg viewBox="0 0 64 64" class="awx awx-sun" aria-hidden="true"><g class="sun-rays"><line class="sun-ray" x1="32" y1="8" x2="32" y2="1"/><line class="sun-ray" x1="32" y1="63" x2="32" y2="56"/><line class="sun-ray" x1="8" y1="32" x2="1" y2="32"/><line class="sun-ray" x1="63" y1="32" x2="56" y2="32"/><line class="sun-ray" x1="14" y1="14" x2="9" y2="9"/><line class="sun-ray" x1="50" y1="50" x2="55" y2="55"/><line class="sun-ray" x1="14" y1="50" x2="9" y2="55"/><line class="sun-ray" x1="50" y1="14" x2="55" y2="9"/></g><circle class="sun-core" cx="32" cy="32" r="12"/></svg>';
+  }
+  function renderForecast(items){ var row=el('forecastRow'); row.innerHTML=''; items.forEach(function(item){ var cell=document.createElement('div'); cell.className='slot'; cell.innerHTML='<div class="wx-time">'+item.time+'</div><div class="wx-main"><div class="wx-icon">'+item.icon+'</div><div class="wx-temp">'+item.temp+'°</div></div><div class="wx-pop">Precip '+item.pop+'%</div>'; row.appendChild(cell); }); }
+  async function loadWeather(){ try{ var url='https://api.open-meteo.com/v1/forecast?latitude=40.1259&longitude=-79.8665&hourly=temperature_2m,precipitation_probability,weather_code&temperature_unit=fahrenheit&forecast_days=3&timezone=America%2FNew_York'; var res=await fetch(url,{cache:'no-store'}); if(!res.ok) throw new Error('weather failed'); var json=await res.json(); var times=json.hourly.time||[], temps=json.hourly.temperature_2m||[], pops=json.hourly.precipitation_probability||[], codes=json.hourly.weather_code||[]; var now=new Date(); var slots=[]; for(var i=0;i<times.length && slots.length<4;i++){ var t=new Date(times[i]); if(t>=now){ slots.push({ time:t.toLocaleTimeString([], {hour:'numeric'}), temp:Math.round(temps[i]), pop:Math.round(pops[i]||0), icon:weatherIcon(Number(codes[i]||0)) }); } } if(!slots.length) throw new Error('no data'); renderForecast(slots); el('weatherUpdated').textContent='Updated '+formatTime(new Date()); el('weatherStatus').textContent='Weather loaded.'; }catch(e){ renderForecast([{time:'--',temp:'--',pop:'--',icon:weatherIcon(3)},{time:'--',temp:'--',pop:'--',icon:weatherIcon(3)},{time:'--',temp:'--',pop:'--',icon:weatherIcon(3)},{time:'--',temp:'--',pop:'--',icon:weatherIcon(3)}]); el('weatherUpdated').textContent='Weather unavailable'; el('weatherStatus').textContent='Unable to load forecast.'; } }
+  loadWeather(); setInterval(loadWeather, 10*60*1000);
+  // --kiosk does not expose the Fullscreen API, so inactivity controls cursor
+  // visibility independently of document.fullscreenElement.
+  var cursorIdleTimer=null;
+  function showCursor(){
+    document.body.classList.remove('cursor-idle');
+    clearTimeout(cursorIdleTimer);
+    if(!panel.classList.contains('open') && kioskControls.hidden){
+      cursorIdleTimer=setTimeout(function(){
+        if(!panel.classList.contains('open') && kioskControls.hidden) document.body.classList.add('cursor-idle');
+      },3000);
+    }
+  }
+  document.addEventListener('pointermove',showCursor,{passive:true});
+  document.addEventListener('pointerdown',showCursor,{passive:true});
+  document.addEventListener('keydown',showCursor);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)showCursor();});
+  var versionToggle=el('versionToggle'), kioskControls=el('kioskControls');
+  function setControlsOpen(open){
+    kioskControls.hidden=!open;
+    versionToggle.setAttribute('aria-expanded',String(open));
+    showCursor();
+  }
+  versionToggle.addEventListener('click',function(e){e.stopPropagation();setControlsOpen(kioskControls.hidden);});
+  kioskControls.addEventListener('click',function(e){
+    if(e.target.closest('button')) setControlsOpen(false);
+    e.stopPropagation();
+  });
+  document.addEventListener('pointerdown',function(e){
+    if(!kioskControls.hidden && !kioskControls.contains(e.target) && !versionToggle.contains(e.target)) setControlsOpen(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && !kioskControls.hidden){setControlsOpen(false);versionToggle.focus();}
+  });
+  el('prev').addEventListener('click', function(){show(currentIndex-1)}); el('next').addEventListener('click', function(){show(currentIndex+1)}); el('settings').addEventListener('click', function(){panel.classList.add('open'); clearTimeout(timer);}); el('close').addEventListener('click', function(){panel.classList.remove('open'); schedule();}); el('save').addEventListener('click', saveData); el('reset').addEventListener('click', resetData); el('fullscreen').addEventListener('click', function(){var st=el('stage'); if(document.fullscreenElement){document.exitFullscreen();} else if(st.requestFullscreen){st.requestFullscreen().catch(function(){});} });
+  document.addEventListener('keydown', function(e){ if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return; if(e.key==='ArrowRight') show(currentIndex+1); else if(e.key==='ArrowLeft') show(currentIndex-1); else if(e.key.toLowerCase()==='s'){panel.classList.toggle('open'); if(!panel.classList.contains('open')) schedule(); else clearTimeout(timer);} else if(e.key.toLowerCase()==='f'){el('fullscreen').click();} else if(e.code==='Space'){ e.preventDefault(); paused=!paused; if(!paused) schedule(); else clearTimeout(timer); } });
+  document.addEventListener('visibilitychange', function(){ if(document.hidden){clearTimeout(timer); stopAllVideos(); goldVideo.pause();} else {show(currentIndex);} });
+  apply(); fitWelcomeText(); show(0); showCursor();
+})();
+</script>
+</body>
+</html>
