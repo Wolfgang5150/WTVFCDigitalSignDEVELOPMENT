@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.35</title>
+<title>WTVFC Digital Signage v4.36</title>
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -94,11 +94,15 @@ button,input,textarea{font:inherit}
 .games .note{position:absolute;left:26px;right:26px;bottom:12px;font-size:54px;line-height:1.02;font-weight:700}
 .games .note.small{font-size:50px}
 /* Screen 4: Early bird, fixed explicit layout */
-.earlybird .title{position:absolute;left:0;right:0;top:187px;text-align:center;font-size:118px;line-height:1;font-weight:700;margin:0}
-.earlybird .card{position:absolute;width:680px;height:360px;padding:26px 30px;text-align:center}
-.earlybird .card.left{left:240px;top:364px}.earlybird .card.right{left:1000px;top:364px}
-.earlybird .label{font-size:86px;line-height:1;font-weight:700;margin:0 0 12px}
-.earlybird .amount{font-size:226px;line-height:.92;margin:0;overflow:visible}
+/* v4.36: Four equal Early Bird / Ball boxes, matching Game Prizes 2x2 layout. */
+.earlybird .card{position:absolute;width:760px;height:338px;padding:22px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.earlybird .card.left{left:150px;top:168px}.earlybird .card.right{left:1010px;top:168px}
+.earlybird .card.red{left:150px;top:554px}.earlybird .card.white{left:1010px;top:554px}
+.earlybird .label{font-size:70px;line-height:1.02;font-weight:700;margin:0 0 12px}
+.earlybird .amount{font-size:188px;line-height:1.0;margin:0;overflow:visible}
+.scene.earlybird.play-intro .card.right .motion-slam{animation-delay:.12s}
+.scene.earlybird.play-intro .card.red .motion-slam{animation-delay:.24s}
+.scene.earlybird.play-intro .card.white .motion-slam{animation-delay:.36s}
 /* Screen 5: promo */
 .promo .date{font-size:124px;line-height:1;margin:0 0 4px;font-weight:700}
 .promo .title{font-size:138px;line-height:.96;margin:0 0 12px;font-weight:700}
@@ -111,7 +115,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.35: Approved three-column kitchen layout (1920x1080 stage) */
+/* v4.36: Approved three-column kitchen layout (1920x1080 stage) */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
 .kitchen .food-spot{position:absolute;left:180px;top:407px;width:520px;height:380px;display:flex;align-items:center;justify-content:center}
 .kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
@@ -377,9 +381,10 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene earlybird" data-scene="earlybird">
   <div class="scene-bg"></div>
   <div class="content serif">
-    <h1 class="title" id="earlyTitle">Early Bird Jackpots</h1>
-    <div class="card left tint-box"><div class="label" id="earlyGame4Label">Game 4</div><div class="money amount motion-gold" id="earlyGame4Prize"></div></div>
-    <div class="card right tint-box"><div class="label" id="earlyGame5Label">Game 5</div><div class="money amount motion-gold" id="earlyGame5Prize"></div></div>
+    <div class="card left tint-box"><div class="label motion-slam" id="earlyGame4Label">Game 4</div><div class="money amount motion-gold" id="earlyGame4Prize"></div></div>
+    <div class="card right tint-box"><div class="label motion-slam" id="earlyGame5Label">Game 5</div><div class="money amount motion-gold" id="earlyGame5Prize"></div></div>
+    <div class="card red tint-box"><div class="label motion-slam" id="earlyRedLabel">Red Ball</div><div class="money amount motion-gold" id="earlyRedPrize"></div></div>
+    <div class="card white tint-box"><div class="label motion-slam" id="earlyWhiteLabel">White Ball</div><div class="money amount motion-gold" id="earlyWhitePrize"></div></div>
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
@@ -412,7 +417,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.35">v4.35</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.36">v4.36</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -420,7 +425,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.35</h2>
+  <h2>WTVFC Digital Signage · v4.36</h2>
   <p>Kitchen special disclaimer added beneath the lower rule line.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
@@ -454,7 +459,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     <div></div>
   </div>
   <h3>Early Bird</h3>
-  <div class="grid2"><div><label for="earlyGame4LabelInput">Left label</label><input id="earlyGame4LabelInput"></div><div><label for="earlyGame5LabelInput">Right label</label><input id="earlyGame5LabelInput"></div><div><label for="earlyGame4">Left amount</label><input id="earlyGame4"></div><div><label for="earlyGame5">Right amount</label><input id="earlyGame5"></div></div>
+  <div class="grid2"><div><label for="earlyGame4LabelInput">Game 4 label</label><input id="earlyGame4LabelInput"></div><div><label for="earlyGame4">Game 4 amount</label><input id="earlyGame4"></div><div><label for="earlyGame5LabelInput">Game 5 label</label><input id="earlyGame5LabelInput"></div><div><label for="earlyGame5">Game 5 amount</label><input id="earlyGame5"></div><div><label for="earlyRedLabelInput">Red Ball label</label><input id="earlyRedLabelInput"></div><div><label for="earlyRed">Red Ball amount</label><input id="earlyRed"></div><div><label for="earlyWhiteLabelInput">White Ball label</label><input id="earlyWhiteLabelInput"></div><div><label for="earlyWhite">White Ball amount</label><input id="earlyWhite"></div></div>
   <h3>December 7 Additional Jackpot</h3>
   <div class="grid2"><div><label for="promoDateInput">Date text</label><input id="promoDateInput"></div><div><label for="promoAmountInput">Amount</label><input id="promoAmountInput"></div></div>
   <label for="promoNoteInput">Voucher note</label><textarea id="promoNoteInput"></textarea>
@@ -469,7 +474,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     welcomeSeconds:'12', jackpotSeconds:'8', gamesSeconds:'10', earlybirdSeconds:'8', promoSeconds:'8', kitchenSeconds:'10',
     jackpot:'$1,350', jackpotCount:'in 51 numbers',
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
-    earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$800', earlyGame5:'$1000',
+    earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$900', earlyGame5:'$1000', earlyRedLabelInput:'Red Ball', earlyRed:'$1,500', earlyWhiteLabelInput:'White Ball', earlyWhite:'$100+',
     promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
     kitchenDishInput:'Cheese Steak Hoagie', kitchenLine1Input:'with french fries', kitchenLine2Input:'and fountain drink', kitchenPriceInput:'$10'
   };
@@ -601,6 +606,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     setHtml('stationBonusPrize', moneyHTML(data.stationBonus));
     setText('earlyGame4Label', data.earlyGame4LabelInput); setText('earlyGame5Label', data.earlyGame5LabelInput);
     setHtml('earlyGame4Prize', moneyHTML(data.earlyGame4)); setHtml('earlyGame5Prize', moneyHTML(data.earlyGame5));
+    setText('earlyRedLabel', data.earlyRedLabelInput); setHtml('earlyRedPrize', moneyHTML(data.earlyRed));
+    setText('earlyWhiteLabel', data.earlyWhiteLabelInput); setHtml('earlyWhitePrize', moneyHTML(data.earlyWhite));
     setText('promoDate', data.promoDateInput); setHtml('promoAmount', moneyHTML(data.promoAmountInput)); setText('promoNote', data.promoNoteInput);
     setText('kitchenDish', data.kitchenDishInput); setText('kitchenLine1', data.kitchenLine1Input); setText('kitchenLine2', data.kitchenLine2Input); setHtml('kitchenPrice', moneyHTML(data.kitchenPriceInput));
     Object.keys(defaults).forEach(function(k){ if(el(k)) el(k).value=data[k]; });
@@ -609,7 +616,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     'Welcome':{greeting:'welcomeGreeting',weather_title:'forecastTitle',weather_location:'forecastLocation',weather_window:'forecastWindow'},
     'Jackpot':{title:'jackpotTitle',amount:'jackpot',numbers:'jackpotCount'},
     'Game Prizes':{bank_name:'bankName',bank_amount:'bank',bank_note:'envelopes',quickie_name:'quickieName',quickie_amount:'quickie',quickie_numbers:'quickieCount',all_nighter_name:'allNighterName',all_nighter_amount:'allNighter',all_nighter_numbers:'allNighterCount',station_name:'stationName',station_amount:'stationBonus'},
-    'Early Birds':{title:'earlyTitle',game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5'},
+    'Early Birds':{game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5',red_ball_name:'earlyRedLabelInput',red_ball_amount:'earlyRed',white_ball_name:'earlyWhiteLabelInput',white_ball_amount:'earlyWhite'},
     'Additional Jackpot':{date_text:'promoDateInput',title:'promoTitle',amount:'promoAmountInput',note:'promoNoteInput'},
     'Kitchen Special':{title:'kitchenTitle',dish:'kitchenDishInput',description_1:'kitchenLine1Input',description_2:'kitchenLine2Input',price:'kitchenPriceInput',disclaimer:'kitchenDisclaimer'},
     'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds'}
