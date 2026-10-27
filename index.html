@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.34</title>
+<title>WTVFC Digital Signage v4.35</title>
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -111,7 +111,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.34: Approved three-column kitchen layout (1920x1080 stage) */
+/* v4.35: Approved three-column kitchen layout (1920x1080 stage) */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
 .kitchen .food-spot{position:absolute;left:180px;top:407px;width:520px;height:380px;display:flex;align-items:center;justify-content:center}
 .kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
@@ -341,7 +341,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
-    <div class="welcome-message">Welcome to Monday Night Bingo!</div>
+    <div class="welcome-message" id="welcomeGreeting">Welcome to Monday Night Bingo!</div>
     <div class="welcome-info">
       <div class="welcome-date" id="welcomeDateTop"></div>
       <span class="welcome-bullet" aria-hidden="true">•</span>
@@ -349,7 +349,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     </div>
     <div class="weather-wrap">
       <div class="weather-head">
-        <div class="weather-title">TONIGHT'S FORECAST <span>• Belle Vernon area • Next 4 hours</span></div>
+        <div class="weather-title"><span id="forecastTitle">TONIGHT'S FORECAST</span> <span>• <span id="forecastLocation">Belle Vernon area</span> • <span id="forecastWindow">Next 4 hours</span></span></div>
         <div class="weather-updated" id="weatherUpdated">Weather loading…</div>
       </div>
       <div class="forecast-row" id="forecastRow"></div>
@@ -360,7 +360,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene jackpot" data-scene="jackpot">
   <div class="scene-bg"></div>
   <div class="content serif center-stack">
-    <h1 class="title motion-slam">Tonight's Jackpot</h1>
+    <h1 class="title motion-slam" id="jackpotTitle">Tonight's Jackpot</h1>
     <div class="money amount motion-gold" id="jackpotPrize">$1,350</div>
     <div class="count" id="jackpotNums">in 51 numbers</div>
   </div>
@@ -368,16 +368,16 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene games" data-scene="games">
   <div class="scene-bg"></div>
   <div class="content serif">
-    <div class="box bank tint-box"><div class="label single motion-slam">Breakin' Your Bank</div><div class="money amount bankamt motion-gold" id="bankPrize"></div><div class="note" id="bankEnvelopes">Only 10 envelopes left!</div></div>
-    <div class="box quickie tint-box"><div class="label single motion-slam">Quickie</div><div class="money amount quickieamt motion-gold" id="quickiePrize"></div><div class="note small" id="quickieNums">in 60 numbers</div></div>
-    <div class="box all tint-box"><div class="label single motion-slam">All Nighter</div><div class="money amount allamt motion-gold" id="allNighterPrize"></div><div class="note small" id="allNighterNums">in 17 numbers</div></div>
-    <div class="box station tint-box"><div class="label single motion-slam">Station Bonus</div><div class="money amount stationamt motion-gold" id="stationBonusPrize"></div></div>
+    <div class="box bank tint-box"><div class="label single motion-slam" id="bankName">Breakin' Your Bank</div><div class="money amount bankamt motion-gold" id="bankPrize"></div><div class="note" id="bankEnvelopes">Only 10 envelopes left!</div></div>
+    <div class="box quickie tint-box"><div class="label single motion-slam" id="quickieName">Quickie</div><div class="money amount quickieamt motion-gold" id="quickiePrize"></div><div class="note small" id="quickieNums">in 60 numbers</div></div>
+    <div class="box all tint-box"><div class="label single motion-slam" id="allNighterName">All Nighter</div><div class="money amount allamt motion-gold" id="allNighterPrize"></div><div class="note small" id="allNighterNums">in 17 numbers</div></div>
+    <div class="box station tint-box"><div class="label single motion-slam" id="stationName">Station Bonus</div><div class="money amount stationamt motion-gold" id="stationBonusPrize"></div></div>
   </div>
 </section>
 <section class="scene earlybird" data-scene="earlybird">
   <div class="scene-bg"></div>
   <div class="content serif">
-    <h1 class="title">Early Bird Jackpots</h1>
+    <h1 class="title" id="earlyTitle">Early Bird Jackpots</h1>
     <div class="card left tint-box"><div class="label" id="earlyGame4Label">Game 4</div><div class="money amount motion-gold" id="earlyGame4Prize"></div></div>
     <div class="card right tint-box"><div class="label" id="earlyGame5Label">Game 5</div><div class="money amount motion-gold" id="earlyGame5Prize"></div></div>
   </div>
@@ -386,7 +386,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
-    <h2 class="title motion-rise">Additional Jackpot</h2>
+    <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
     <div class="money amount motion-gold" id="promoAmount">$5,000</div>
     <div class="note motion-rise" id="promoNote">One free play voucher awarded each week leading up to the jackpot!</div>
   </div>
@@ -395,7 +395,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
-    <div class="headline-wrap"><h1 class="headline">Kitchen Special</h1><div class="headline-line"></div></div>
+    <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="food-spot" aria-hidden="true">
         <img src="comic_style_cheesesteak_meal_burst.png" alt="">
@@ -408,11 +408,11 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       <div class="price-card tint-box"><div class="money price" id="kitchenPrice"></div></div>
     </div>
     <div class="bottom-line"></div>
-    <div class="disclaimer">*Picture for illustrative purposes only. Actual food items may vary.</div>
+    <div class="disclaimer" id="kitchenDisclaimer">*Picture for illustrative purposes only. Actual food items may vary.</div>
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.34">v4.34</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.35">v4.35</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -420,8 +420,15 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.34</h2>
+  <h2>WTVFC Digital Signage · v4.35</h2>
   <p>Kitchen special disclaimer added beneath the lower rule line.</p>
+  <h3>Google Sheets — Remote Updates</h3>
+  <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
+  <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+  <label for="contentMode">Content source</label>
+  <select id="contentMode" style="width:100%;padding:10px;background:#1d2940;color:white;border:1px solid #60708f;border-radius:6px"><option value="remote">Google Sheets (automatic)</option><option value="local">Local Settings only</option></select>
+  <p id="sheetStatus" role="status">Remote connection not configured.</p>
+  <div class="row-buttons"><button id="sheetSync" type="button">↻ Update Now</button></div>
   <h3>Screen Timing (seconds)</h3>
   <div class="grid2">
     <div><label for="welcomeSeconds">Welcome</label><input id="welcomeSeconds" type="number" min="4" max="120"></div>
@@ -467,6 +474,11 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     kitchenDishInput:'Cheese Steak Hoagie', kitchenLine1Input:'with french fries', kitchenLine2Input:'and fountain drink', kitchenPriceInput:'$10'
   };
   var storeKey='wtvfc_signage_v41';
+  var remoteConfigKey='wtvfc_remote_v435';
+  var remoteCacheKey='wtvfc_remote_cache_v435';
+  var remoteConfig={endpoint:'',mode:'remote'};
+  var remoteCache=null;
+  try{remoteConfig=Object.assign(remoteConfig,JSON.parse(localStorage.getItem(remoteConfigKey)||'null')||{});remoteCache=JSON.parse(localStorage.getItem(remoteCacheKey)||'null');}catch(e){}
   var legacyKeys=['wtvfc_signage_v40']; // Maintain production settings across the upgrade.
   var data=Object.assign({},defaults);
   try{
@@ -502,7 +514,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function el(id){return document.getElementById(id)}
   // Build individual lit letters once. The original demo used 35ms delays per character.
   // Leave the date/time line as ordinary text; only greeting gets neon.
-  (function prepareWelcomeNeon(){
+  function prepareWelcomeNeon(){
     var greet=document.querySelector('.welcome-message');
     var message=greet.textContent;
     greet.textContent='';
@@ -513,7 +525,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       span.textContent=ch===' '?'\u00a0':ch;
       greet.appendChild(span);
     });
-  })();
+  }
+  prepareWelcomeNeon();
   /* Fit natural glyph widths with generous side margins. Only font-size changes;
      no horizontal transforms. Cap sizes so a shorter date cannot overtake greeting. */
   function fitWelcomeText(){
@@ -566,6 +579,20 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function setHtml(id, html){ el(id).innerHTML=html; }
   function setText(id, value){ el(id).textContent=value; }
   function apply(){
+    setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
+    setText('earlyTitle', data.earlyTitle||'Early Bird Jackpots');
+    setText('promoTitle', data.promoTitle||'Additional Jackpot');
+    setText('kitchenTitle', data.kitchenTitle||'Kitchen Special');
+    setText('kitchenDisclaimer', data.kitchenDisclaimer||'*Picture for illustrative purposes only. Actual food items may vary.');
+    setText('bankName',data.bankName||'Breakin\' Your Bank');
+    setText('quickieName',data.quickieName||'Quickie');
+    setText('allNighterName',data.allNighterName||'All Nighter');
+    setText('stationName',data.stationName||'Station Bonus');
+    setText('forecastTitle',data.forecastTitle||'TONIGHT\'S FORECAST');
+    setText('forecastLocation',data.forecastLocation||'Belle Vernon area');
+    setText('forecastWindow',data.forecastWindow||'Next 4 hours');
+    var greeting=data.welcomeGreeting||'Welcome to Monday Night Bingo!';
+    var g=el('welcomeGreeting');if(g.textContent!==greeting){g.textContent=greeting;prepareWelcomeNeon();fitWelcomeText();}
     setHtml('jackpotPrize', moneyHTML(data.jackpot));
     setText('jackpotNums', data.jackpotCount);
     setHtml('bankPrize', moneyHTML(data.bank)); setText('bankEnvelopes', data.envelopes);
@@ -578,6 +605,53 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     setText('kitchenDish', data.kitchenDishInput); setText('kitchenLine1', data.kitchenLine1Input); setText('kitchenLine2', data.kitchenLine2Input); setHtml('kitchenPrice', moneyHTML(data.kitchenPriceInput));
     Object.keys(defaults).forEach(function(k){ if(el(k)) el(k).value=data[k]; });
   }
+  var fieldMap={
+    'Welcome':{greeting:'welcomeGreeting',weather_title:'forecastTitle',weather_location:'forecastLocation',weather_window:'forecastWindow'},
+    'Jackpot':{title:'jackpotTitle',amount:'jackpot',numbers:'jackpotCount'},
+    'Game Prizes':{bank_name:'bankName',bank_amount:'bank',bank_note:'envelopes',quickie_name:'quickieName',quickie_amount:'quickie',quickie_numbers:'quickieCount',all_nighter_name:'allNighterName',all_nighter_amount:'allNighter',all_nighter_numbers:'allNighterCount',station_name:'stationName',station_amount:'stationBonus'},
+    'Early Birds':{title:'earlyTitle',game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5'},
+    'Additional Jackpot':{date_text:'promoDateInput',title:'promoTitle',amount:'promoAmountInput',note:'promoNoteInput'},
+    'Kitchen Special':{title:'kitchenTitle',dish:'kitchenDishInput',description_1:'kitchenLine1Input',description_2:'kitchenLine2Input',price:'kitchenPriceInput',disclaimer:'kitchenDisclaimer'},
+    'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds'}
+  };
+  var remotePending=false,remoteLastCheck=0,remoteTimer=null,remoteScheduled=null;
+  function remoteStatus(msg){if(el('sheetStatus'))el('sheetStatus').textContent=msg;}
+  function remoteValues(payload){
+    if(!payload||!payload.tabs||typeof payload.tabs!=='object')throw new Error('Invalid spreadsheet response');
+    if(String(payload.tabs['General Settings']?.remote_enabled||'TRUE').toLowerCase()==='false')return null;
+    var changes={};
+    Object.keys(fieldMap).forEach(function(tab){var src=payload.tabs[tab]||{};Object.keys(fieldMap[tab]).forEach(function(key){
+      if(Object.prototype.hasOwnProperty.call(src,key)&&src[key]!==null){var value=String(src[key]);if(value.length>400) value=value.slice(0,400);changes[fieldMap[tab][key]]=value;}
+    });});
+    var interval=Number(payload.tabs['General Settings']?.refresh_seconds);if(Number.isFinite(interval))remoteInterval=Math.max(15,Math.min(3600,interval));
+    return changes;
+  }
+  var remoteInterval=30;
+  function applyRemoteCache(){
+    if(remoteConfig.mode!=='remote'||!remoteCache)return;
+    try{var overlay=remoteValues(remoteCache);if(overlay){data=Object.assign({},data,overlay);apply();}}catch(e){}
+  }
+  function scheduleRemote(){clearTimeout(remoteScheduled);remoteScheduled=setTimeout(function(){refreshRemote();},remoteInterval*1000);}
+  function refreshRemote(force){
+    if(remoteConfig.mode!=='remote'||!remoteConfig.endpoint){remoteStatus(remoteConfig.mode==='local'?'Local settings mode — remote updates paused.':'Paste an Apps Script /exec URL and Save & Apply.');return;}
+    if(remotePending)return;
+    var endpoint=remoteConfig.endpoint.trim();
+    if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec(?:\?.*)?$/.test(endpoint)){remoteStatus('Invalid Apps Script /exec URL.');return;}
+    remotePending=true; remoteStatus('Checking Google Sheets…');
+    var id='wtvfcSheetReply_'+Date.now(),script=document.createElement('script'),done=false;
+    var timeout=setTimeout(function(){finish(new Error('Timeout'));},12000);
+    function finish(err,payload){if(done)return;done=true;clearTimeout(timeout);script.remove();try{delete window[id];}catch(e){}remotePending=false;
+      if(err){remoteStatus('Offline / unavailable — using last saved values ('+err.message+').');scheduleRemote();return;}
+      try{var values=remoteValues(payload);if(values){remoteCache=payload;try{localStorage.setItem(remoteCacheKey,JSON.stringify(payload));}catch(e){}data=Object.assign({},data,values);apply();if(!panel.classList.contains('open'))schedule();remoteStatus('Connected • Updated '+new Date().toLocaleTimeString());}else remoteStatus('Remote changes disabled in spreadsheet.');}
+      catch(e){remoteStatus('Invalid response — using previous values.');}
+      scheduleRemote();
+    }
+    window[id]=function(payload){finish(null,payload)};
+    script.onerror=function(){finish(new Error('Connection error'));};
+    script.src=endpoint+(endpoint.indexOf('?')<0?'?':'&')+'callback='+encodeURIComponent(id)+'&_='+Date.now();
+    document.head.appendChild(script);
+  }
+  function saveRemoteConfig(){remoteConfig.endpoint=el('sheetEndpoint').value.trim();remoteConfig.mode=el('contentMode').value;try{localStorage.setItem(remoteConfigKey,JSON.stringify(remoteConfig));}catch(e){}}
   function getDuration(sceneName){ var key=durationMap[sceneName]; return Math.max(4,Math.min(120,Number(data[key])||8)); }
   function schedule(){ clearTimeout(timer); if(paused||panel.classList.contains('open')||document.hidden) return; timer=setTimeout(function(){show(currentIndex+1);}, getDuration(sceneOrder[currentIndex])*1000); }
   function stopAllVideos(){ Object.keys(videos).forEach(function(k){ videos[k].pause(); }); }
@@ -596,7 +670,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     if(v.readyState>=1&&v.duration)go(); else {v.addEventListener('loadedmetadata',go,{once:true});v.load();}
   }
   function show(n){ currentIndex=(n+sceneOrder.length)%sceneOrder.length; scenes.forEach(function(sc,i){ sc.classList.remove('play-intro'); sc.classList.toggle('active', i===currentIndex); if(i===currentIndex){ void sc.offsetWidth; sc.classList.add('play-intro'); } }); activateSceneVideo(sceneOrder[currentIndex]); schedule(); }
-  function saveData(){ Object.keys(defaults).forEach(function(k){ if(el(k)) data[k]=el(k).value; }); try{localStorage.setItem(storeKey, JSON.stringify(data));}catch(e){} apply(); panel.classList.remove('open'); show(currentIndex); }
+  function saveData(){ saveRemoteConfig(); Object.keys(defaults).forEach(function(k){ if(el(k)) data[k]=el(k).value; }); try{localStorage.setItem(storeKey, JSON.stringify(data));}catch(e){} apply(); panel.classList.remove('open'); show(currentIndex); clearTimeout(remoteScheduled); if(remoteConfig.mode==='remote'){applyRemoteCache();refreshRemote(true);}else{remoteCache=null;remoteStatus('Local settings mode — remote updates paused.');} }
   function resetData(){ data=Object.assign({},defaults); try{localStorage.removeItem(storeKey);}catch(e){} apply(); panel.classList.remove('open'); show(0); }
   function formatTime(d){ var h=d.getHours(), m=d.getMinutes(), am=h>=12?'PM':'AM'; h=h%12||12; return h+':'+String(m).padStart(2,'0')+' '+am; }
   function tickClock(){
@@ -657,7 +731,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   el('prev').addEventListener('click', function(){show(currentIndex-1)}); el('next').addEventListener('click', function(){show(currentIndex+1)}); el('settings').addEventListener('click', function(){panel.classList.add('open'); clearTimeout(timer);}); el('close').addEventListener('click', function(){panel.classList.remove('open'); schedule();}); el('save').addEventListener('click', saveData); el('reset').addEventListener('click', resetData); el('fullscreen').addEventListener('click', function(){var st=el('stage'); if(document.fullscreenElement){document.exitFullscreen();} else if(st.requestFullscreen){st.requestFullscreen().catch(function(){});} });
   document.addEventListener('keydown', function(e){ if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return; if(e.key==='ArrowRight') show(currentIndex+1); else if(e.key==='ArrowLeft') show(currentIndex-1); else if(e.key.toLowerCase()==='s'){panel.classList.toggle('open'); if(!panel.classList.contains('open')) schedule(); else clearTimeout(timer);} else if(e.key.toLowerCase()==='f'){el('fullscreen').click();} else if(e.code==='Space'){ e.preventDefault(); paused=!paused; if(!paused) schedule(); else clearTimeout(timer); } });
   document.addEventListener('visibilitychange', function(){ if(document.hidden){clearTimeout(timer); stopAllVideos(); goldVideo.pause();} else {show(currentIndex);} });
+  if(el('sheetEndpoint'))el('sheetEndpoint').value=remoteConfig.endpoint;
+  if(el('contentMode'))el('contentMode').value=remoteConfig.mode;
+  applyRemoteCache();
   apply(); fitWelcomeText(); show(0); showCursor();
+  if(remoteConfig.endpoint&&remoteConfig.mode==='remote')refreshRemote();
+  else remoteStatus('Paste an Apps Script /exec URL and Save & Apply.');
+  el('sheetSync').addEventListener('click',function(){saveRemoteConfig();clearTimeout(remoteScheduled);refreshRemote(true);});
 })();
 </script>
 </body>
