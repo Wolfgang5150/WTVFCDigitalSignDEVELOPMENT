@@ -1,0 +1,81 @@
+name: Publish to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview changes only (do not publish)'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wtvfc-production-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Copy approved site to production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out development site
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          path: development
+
+      - name: Check publication prerequisites
+        env:
+          PRODUCTION_TOKEN: ${{ secrets.PRODUCTION_REPO_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PRODUCTION_TOKEN" ]; then
+            echo 'Missing secret PRODUCTION_REPO_TOKEN in the development repository.' >&2
+            exit 1
+          fi
+          test -s development/index.html || { echo 'Missing development/index.html' >&2; exit 1; }
+
+      - name: Check out live site
+        uses: actions/checkout@v4
+        with:
+          repository: Wolfgang5150/WTVFCDigitalSign
+          ref: main
+          token: ${{ secrets.PRODUCTION_REPO_TOKEN }}
+          path: production
+          persist-credentials: true
+
+      - name: Preview / synchronize published site files
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          # Preserve repository-specific GitHub Actions workflows and other metadata.
+          # README files are documentation, not signage, and also stay in each repository.
+          if [ "$DRY_RUN" = 'true' ]; then
+            rsync -avcn --delete --itemize-changes \
+              --exclude='/.git/' \
+              --exclude='/.github/' \
+              --exclude='/README.md' \
+              development/ production/
+            echo 'DRY RUN only. Production was NOT changed.'
+          else
+            rsync -avc --delete --itemize-changes \
+              --exclude='/.git/' \
+              --exclude='/.github/' \
+              --exclude='/README.md' \
+              development/ production/
+            cd production
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -A
+            if git diff --cached --quiet; then
+              echo 'Already synchronized; no changes to publish.'
+            else
+              git commit -m "Publish signage from development at ${GITHUB_SHA:0:12}"
+              git push origin HEAD:main
+              echo 'Production repository updated. GitHub Pages will deploy it.'
+            fi
+          fi
