@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.40</title>
+<title>WTVFC Digital Signage v4.41</title>
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -115,7 +115,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.40: Two-offering kitchen layout, stacked vertically while preserving the same overall visual language. */
+/* v4.41: Two-offering kitchen layout, stacked vertically while preserving the same overall visual language. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
 .kitchen .offer-row{position:absolute;left:160px;right:182px;height:228px;display:grid;grid-template-columns:300px 1fr 292px;column-gap:38px;align-items:center}
 .kitchen .offer-row.top{top:305px}
@@ -132,6 +132,7 @@ button,input,textarea{font:inherit}
 .kitchen .price-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
 .kitchen .price{font-size:152px;line-height:.9;font-weight:700;margin:0}
 .kitchen .price-note{font-size:34px;line-height:1;font-weight:700;margin:0;color:#ffe1a3}
+.kitchen .offer-row.bottom .price-note{transform:translateY(-18px)}
 @media (prefers-reduced-motion:reduce){.kitchen .food-spot img{animation:none!important}}
 /* v4.30: unattended signage hides idle mouse even in Chrome --kiosk mode.
    Any pointer movement immediately restores it; controls/settings keep it visible. */
@@ -438,7 +439,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.40">v4.40</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.41">v4.41</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -446,8 +447,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.40</h2>
-  <p>Kitchen special disclaimer added beneath the lower rule line.</p>
+  <h2>WTVFC Digital Signage · v4.41</h2>
+  <p>Kitchen specials refreshed: top item is Crispy Chicken Salad at $9, and the "a bowl" note is raised for better spacing.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
   <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
@@ -519,7 +520,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     saved=JSON.parse(localStorage.getItem(storeKey)||'null');
     if(!saved){ for(var i=0;i<legacyKeys.length;i++){ var test=JSON.parse(localStorage.getItem(legacyKeys[i])||'null'); if(test){ saved=test; break; } } }
     if(saved&&typeof saved==='object') {
-      // v4.40: migrate the former single-item kitchen screen to the new two-item weekly specials layout.
+      // v4.41: migrate the former single-item kitchen screen to the new two-item weekly specials layout.
       if(!saved.kitchenSpecial1TitleInput) {
         saved=Object.assign({}, saved, {
           kitchenSpecial1TitleInput: defaults.kitchenSpecial1TitleInput,
