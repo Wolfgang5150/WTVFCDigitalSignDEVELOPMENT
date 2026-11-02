@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.39</title>
+<title>WTVFC Digital Signage v4.40</title>
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -115,16 +115,23 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.39: Approved three-column kitchen layout (1920x1080 stage) */
+/* v4.40: Two-offering kitchen layout, stacked vertically while preserving the same overall visual language. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
-.kitchen .food-spot{position:absolute;left:180px;top:407px;width:520px;height:380px;display:flex;align-items:center;justify-content:center}
+.kitchen .offer-row{position:absolute;left:160px;right:182px;height:228px;display:grid;grid-template-columns:300px 1fr 292px;column-gap:38px;align-items:center}
+.kitchen .offer-row.top{top:305px}
+.kitchen .offer-row.bottom{top:575px}
+.kitchen .food-spot{width:300px;height:220px;display:flex;align-items:center;justify-content:center}
 .kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
+.kitchen .offer-row.bottom .food-spot img{animation-delay:.35s}
 @keyframes kitchen-food-rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-.kitchen .dish-wrap{position:absolute;left:777px;top:360px;width:540px;text-align:left}
-.kitchen .dish-title{font-size:88px;line-height:.95;font-weight:700;margin:0 0 25px;max-width:480px;overflow-wrap:normal}
-.kitchen .dish-line{font-size:57px;line-height:1.04;font-weight:700;margin:0;white-space:nowrap}
-.kitchen .price-card{position:absolute;right:182px;top:461px;width:371px;height:274px;display:flex;align-items:center;justify-content:center;border-radius:32px}
-.kitchen .price{font-size:178px;line-height:1;font-weight:700;margin:0}
+.kitchen .dish-wrap{width:100%;text-align:left}
+.kitchen .dish-title{font-size:76px;line-height:.94;font-weight:700;margin:0 0 14px;max-width:640px;white-space:normal;overflow-wrap:normal}
+.kitchen .dish-line{font-size:45px;line-height:1.03;font-weight:700;margin:0 0 4px;white-space:normal}
+.kitchen .dish-line:empty,.kitchen .price-note:empty{display:none}
+.kitchen .price-card{width:292px;height:186px;display:flex;align-items:center;justify-content:center;border-radius:32px}
+.kitchen .price-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+.kitchen .price{font-size:152px;line-height:.9;font-weight:700;margin:0}
+.kitchen .price-note{font-size:34px;line-height:1;font-weight:700;margin:0;color:#ffe1a3}
 @media (prefers-reduced-motion:reduce){.kitchen .food-spot img{animation:none!important}}
 /* v4.30: unattended signage hides idle mouse even in Chrome --kiosk mode.
    Any pointer movement immediately restores it; controls/settings keep it visible. */
@@ -332,7 +339,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 .scene.kitchen .content.serif .headline,
 .scene.kitchen .content.serif .dish-title,
 .scene.kitchen .content.serif .dish-line,
-.scene.kitchen .content.serif .money {
+.scene.kitchen .content.serif .money,
+.scene.kitchen .content.serif .price-note {
   text-shadow:
     3px 4px 0 rgba(14, 8, 4, .96),
     6px 8px 5px rgba(0, 0, 0, .78),
@@ -400,24 +408,37 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
-    <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
+    <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Specials</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
-      <div class="food-spot" aria-hidden="true">
-        <img src="comic_style_cheesesteak_meal_burst.png" alt="">
+      <div class="offer-row top">
+        <div class="food-spot" aria-hidden="true">
+          <img src="crispy_chicken_salad_and_soda.png" alt="">
+        </div>
+        <div class="dish-wrap">
+          <h2 class="dish-title" id="kitchenSpecial1Title">Crispy Chicken Salad</h2>
+          <p class="dish-line" id="kitchenSpecial1Line1">with fountain drink</p>
+          <p class="dish-line" id="kitchenSpecial1Line2"></p>
+        </div>
+        <div class="price-card tint-box"><div class="price-stack"><div class="money price" id="kitchenSpecial1Price"></div><div class="price-note" id="kitchenSpecial1PriceNote"></div></div></div>
       </div>
-      <div class="dish-wrap">
-        <h2 class="dish-title" id="kitchenDish">Cheese Steak Hoagie</h2>
-        <p class="dish-line" id="kitchenLine1">with french fries</p>
-        <p class="dish-line" id="kitchenLine2">and fountain drink</p>
+      <div class="offer-row bottom">
+        <div class="food-spot" aria-hidden="true">
+          <img src="cheesy_marinara_penne_feast.png" alt="">
+        </div>
+        <div class="dish-wrap">
+          <h2 class="dish-title" id="kitchenSpecial2Title">Pasta with a roll</h2>
+          <p class="dish-line" id="kitchenSpecial2Line1">add meatballs $6</p>
+          <p class="dish-line" id="kitchenSpecial2Line2"></p>
+        </div>
+        <div class="price-card tint-box"><div class="price-stack"><div class="money price" id="kitchenSpecial2Price"></div><div class="price-note" id="kitchenSpecial2PriceNote">a bowl</div></div></div>
       </div>
-      <div class="price-card tint-box"><div class="money price" id="kitchenPrice"></div></div>
     </div>
     <div class="bottom-line"></div>
     <div class="disclaimer" id="kitchenDisclaimer">*Picture for illustrative purposes only. Actual food items may vary.</div>
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.39">v4.39</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.40">v4.40</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -425,7 +446,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.39</h2>
+  <h2>WTVFC Digital Signage · v4.40</h2>
   <p>Kitchen special disclaimer added beneath the lower rule line.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
@@ -463,9 +484,16 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <h3>December 7 Additional Jackpot</h3>
   <div class="grid2"><div><label for="promoDateInput">Date text</label><input id="promoDateInput"></div><div><label for="promoAmountInput">Amount</label><input id="promoAmountInput"></div></div>
   <label for="promoNoteInput">Voucher note</label><textarea id="promoNoteInput"></textarea>
-  <h3>Kitchen Special</h3>
-  <div class="grid2"><div><label for="kitchenDishInput">Dish title</label><input id="kitchenDishInput"></div><div><label for="kitchenPriceInput">Price</label><input id="kitchenPriceInput"></div></div>
-  <label for="kitchenLine1Input">Line 1</label><input id="kitchenLine1Input"><label for="kitchenLine2Input">Line 2</label><input id="kitchenLine2Input">
+  <h3>Kitchen Specials</h3>
+  <p>Top special appears first, bottom special appears second on the kitchen screen.</p>
+  <div class="grid2"><div><label for="kitchenSpecial1TitleInput">Top special title</label><input id="kitchenSpecial1TitleInput"></div><div><label for="kitchenSpecial1PriceInput">Top special price</label><input id="kitchenSpecial1PriceInput"></div></div>
+  <label for="kitchenSpecial1Line1Input">Top special line 1</label><input id="kitchenSpecial1Line1Input">
+  <label for="kitchenSpecial1Line2Input">Top special line 2</label><input id="kitchenSpecial1Line2Input">
+  <label for="kitchenSpecial1PriceNoteInput">Top special price note</label><input id="kitchenSpecial1PriceNoteInput">
+  <div class="grid2"><div><label for="kitchenSpecial2TitleInput">Bottom special title</label><input id="kitchenSpecial2TitleInput"></div><div><label for="kitchenSpecial2PriceInput">Bottom special price</label><input id="kitchenSpecial2PriceInput"></div></div>
+  <label for="kitchenSpecial2Line1Input">Bottom special line 1</label><input id="kitchenSpecial2Line1Input">
+  <label for="kitchenSpecial2Line2Input">Bottom special line 2</label><input id="kitchenSpecial2Line2Input">
+  <label for="kitchenSpecial2PriceNoteInput">Bottom special price note</label><input id="kitchenSpecial2PriceNoteInput">
   <div class="row-buttons"><button id="save">Save & Apply</button><button id="reset">Reset Demo</button><button id="close">Close</button></div>
 </aside>
 <script>
@@ -476,7 +504,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
     earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$900', earlyGame5:'$1000', earlyRedLabelInput:'Red Ball', earlyRed:'$1,500', earlyWhiteLabelInput:'White Ball', earlyWhite:'$100+',
     promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
-    kitchenDishInput:'Cheese Steak Hoagie', kitchenLine1Input:'with french fries', kitchenLine2Input:'and fountain drink', kitchenPriceInput:'$10'
+    kitchenSpecial1TitleInput:'Crispy Chicken Salad', kitchenSpecial1Line1Input:'with fountain drink', kitchenSpecial1Line2Input:'', kitchenSpecial1PriceInput:'$9', kitchenSpecial1PriceNoteInput:'', kitchenSpecial2TitleInput:'Pasta with a roll', kitchenSpecial2Line1Input:'add meatballs $6', kitchenSpecial2Line2Input:'', kitchenSpecial2PriceInput:'$5', kitchenSpecial2PriceNoteInput:'a bowl'
   };
   var storeKey='wtvfc_signage_v41';
   var remoteConfigKey='wtvfc_remote_v435';
@@ -491,16 +519,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     saved=JSON.parse(localStorage.getItem(storeKey)||'null');
     if(!saved){ for(var i=0;i<legacyKeys.length;i++){ var test=JSON.parse(localStorage.getItem(legacyKeys[i])||'null'); if(test){ saved=test; break; } } }
     if(saved&&typeof saved==='object') {
-      // Upgrade only the original demo kitchen special; preserve any separately customized menu.
-      if(saved.kitchenDishInput==='Prime Rib' &&
-         saved.kitchenLine1Input==='with mashed potatoes' &&
-         saved.kitchenLine2Input==='and steamed vegetable' &&
-         saved.kitchenPriceInput==='$9.99') {
-        saved=Object.assign({},saved,{
-          kitchenDishInput:defaults.kitchenDishInput,
-          kitchenLine1Input:defaults.kitchenLine1Input,
-          kitchenLine2Input:defaults.kitchenLine2Input,
-          kitchenPriceInput:defaults.kitchenPriceInput
+      // v4.40: migrate the former single-item kitchen screen to the new two-item weekly specials layout.
+      if(!saved.kitchenSpecial1TitleInput) {
+        saved=Object.assign({}, saved, {
+          kitchenSpecial1TitleInput: defaults.kitchenSpecial1TitleInput,
+          kitchenSpecial1Line1Input: defaults.kitchenSpecial1Line1Input,
+          kitchenSpecial1Line2Input: defaults.kitchenSpecial1Line2Input,
+          kitchenSpecial1PriceInput: defaults.kitchenSpecial1PriceInput,
+          kitchenSpecial1PriceNoteInput: defaults.kitchenSpecial1PriceNoteInput,
+          kitchenSpecial2TitleInput: defaults.kitchenSpecial2TitleInput,
+          kitchenSpecial2Line1Input: defaults.kitchenSpecial2Line1Input,
+          kitchenSpecial2Line2Input: defaults.kitchenSpecial2Line2Input,
+          kitchenSpecial2PriceInput: defaults.kitchenSpecial2PriceInput,
+          kitchenSpecial2PriceNoteInput: defaults.kitchenSpecial2PriceNoteInput
         });
       }
       data=Object.assign(data,saved);
@@ -586,7 +617,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function apply(){
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle||'Additional Jackpot');
-    setText('kitchenTitle', data.kitchenTitle||'Kitchen Special');
+    setText('kitchenTitle', data.kitchenTitle||'Kitchen Specials');
     setText('kitchenDisclaimer', data.kitchenDisclaimer||'*Picture for illustrative purposes only. Actual food items may vary.');
     setText('bankName',data.bankName||'Breakin\' Your Bank');
     setText('quickieName',data.quickieName||'Quickie');
@@ -608,7 +639,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     setText('earlyRedLabel', data.earlyRedLabelInput); setHtml('earlyRedPrize', moneyHTML(data.earlyRed));
     setText('earlyWhiteLabel', data.earlyWhiteLabelInput); setHtml('earlyWhitePrize', moneyHTML(data.earlyWhite));
     setText('promoDate', data.promoDateInput); setHtml('promoAmount', moneyHTML(data.promoAmountInput)); setText('promoNote', data.promoNoteInput);
-    setText('kitchenDish', data.kitchenDishInput); setText('kitchenLine1', data.kitchenLine1Input); setText('kitchenLine2', data.kitchenLine2Input); setHtml('kitchenPrice', moneyHTML(data.kitchenPriceInput));
+    setText('kitchenSpecial1Title', data.kitchenSpecial1TitleInput); setText('kitchenSpecial1Line1', data.kitchenSpecial1Line1Input); setText('kitchenSpecial1Line2', data.kitchenSpecial1Line2Input); setHtml('kitchenSpecial1Price', moneyHTML(data.kitchenSpecial1PriceInput)); setText('kitchenSpecial1PriceNote', data.kitchenSpecial1PriceNoteInput);
+    setText('kitchenSpecial2Title', data.kitchenSpecial2TitleInput); setText('kitchenSpecial2Line1', data.kitchenSpecial2Line1Input); setText('kitchenSpecial2Line2', data.kitchenSpecial2Line2Input); setHtml('kitchenSpecial2Price', moneyHTML(data.kitchenSpecial2PriceInput)); setText('kitchenSpecial2PriceNote', data.kitchenSpecial2PriceNoteInput);
     Object.keys(defaults).forEach(function(k){ if(el(k)) el(k).value=data[k]; });
   }
   var fieldMap={
@@ -617,7 +649,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     'Game Prizes':{bank_name:'bankName',bank_amount:'bank',bank_note:'envelopes',quickie_name:'quickieName',quickie_amount:'quickie',quickie_numbers:'quickieCount',all_nighter_name:'allNighterName',all_nighter_amount:'allNighter',all_nighter_numbers:'allNighterCount',station_name:'stationName',station_amount:'stationBonus'},
     'Early Birds':{game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5',red_ball_name:'earlyRedLabelInput',red_ball_amount:'earlyRed',white_ball_name:'earlyWhiteLabelInput',white_ball_amount:'earlyWhite'},
     'Additional Jackpot':{date_text:'promoDateInput',title:'promoTitle',amount:'promoAmountInput',note:'promoNoteInput'},
-    'Kitchen Special':{title:'kitchenTitle',dish:'kitchenDishInput',description_1:'kitchenLine1Input',description_2:'kitchenLine2Input',price:'kitchenPriceInput',disclaimer:'kitchenDisclaimer'},
+    'Kitchen Special':{title:'kitchenTitle',dish:'kitchenSpecial1TitleInput',description_1:'kitchenSpecial1Line1Input',description_2:'kitchenSpecial1Line2Input',price:'kitchenSpecial1PriceInput',price_note:'kitchenSpecial1PriceNoteInput',second_dish:'kitchenSpecial2TitleInput',second_description_1:'kitchenSpecial2Line1Input',second_description_2:'kitchenSpecial2Line2Input',second_price:'kitchenSpecial2PriceInput',second_price_note:'kitchenSpecial2PriceNoteInput',disclaimer:'kitchenDisclaimer'},
     'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds'}
   };
   var remotePending=false,remoteLastCheck=0,remoteTimer=null,remoteScheduled=null;
