@@ -118,8 +118,8 @@ button,input,textarea{font:inherit}
 /* v4.41: Two-offering kitchen layout, stacked vertically while preserving the same overall visual language. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
 .kitchen .offer-row{position:absolute;left:160px;right:182px;height:228px;display:grid;grid-template-columns:300px 1fr 292px;column-gap:38px;align-items:center}
-.kitchen .offer-row.top{top:305px}
-.kitchen .offer-row.bottom{top:575px}
+.kitchen .offer-row.top{top:353px}
+.kitchen .offer-row.bottom{top:623px}
 .kitchen .food-spot{width:300px;height:220px;display:flex;align-items:center;justify-content:center}
 .kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
 .kitchen .offer-row.bottom .food-spot img{animation-delay:.35s}
@@ -439,7 +439,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.41">v4.41</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.42">v4.42</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -447,8 +447,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.41</h2>
-  <p>Kitchen specials refreshed: top item is Crispy Chicken Salad at $9, and the "a bowl" note is raised for better spacing.</p>
+  <h2>WTVFC Digital Signage · v4.42</h2>
+  <p>Kitchen specials menu entries and matching price boxes are shifted downward about 1/2 inch for better vertical balance.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
   <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
