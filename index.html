@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.44</title>
-<meta name="wtvfc-build-version" content="4.44">
+<title>WTVFC Digital Signage v4.45</title>
+<meta name="wtvfc-build-version" content="4.45">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.44') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.45') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -116,23 +116,25 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.44: one featured item with two selectable baked-potato upgrades. Only proportional sizing. */
+/* v4.45: Two independent specials. Text and price fields are live Google Sheets values.
+   Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
-.kitchen .food-spot{position:absolute;left:166px;top:345px;width:520px;height:450px;display:flex;align-items:center;justify-content:center}
-.kitchen .food-spot img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(0,0,0,.35));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:50% 58%}
+.kitchen .offer{position:absolute;left:154px;right:149px;display:grid;grid-template-columns:390px minmax(0,1fr) 292px;gap:32px;align-items:center}
+.kitchen .offer.primary{top:310px;height:290px}
+.kitchen .offer.secondary{top:635px;height:228px}
+.kitchen .food-spot{position:relative;width:390px;height:100%;display:flex;align-items:center;justify-content:center}
+.kitchen .food-spot img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(0,0,0,.32));animation:kitchen-food-rock 5.5s ease-in-out infinite;transform-origin:center}
+.kitchen .offer.secondary .food-spot img{animation-delay:.35s}
 @keyframes kitchen-food-rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-.kitchen .dish-wrap{position:absolute;left:730px;top:323px;width:725px;text-align:left}
-.kitchen .dish-title{font-size:104px;line-height:1;font-weight:700;margin:0 0 21px;white-space:normal}
-.kitchen .dish-line{font-size:49px;line-height:1.07;font-weight:700;margin:0;white-space:normal}
+.kitchen .dish-wrap{min-width:0;text-align:left}
+.kitchen .dish-title{font-size:77px;line-height:.98;font-weight:700;margin:0 0 12px;overflow-wrap:normal}
+.kitchen .dish-line{font-size:44px;line-height:1.07;font-weight:700;margin:0 0 5px;color:#ffe1a3}
 .kitchen .dish-line:empty{display:none}
-.kitchen .price-card{position:absolute;left:1490px;top:329px;width:285px;height:195px;display:flex;align-items:center;justify-content:center;border-radius:30px}
-.kitchen .price{font-size:138px;line-height:1;font-weight:700;margin:0;white-space:nowrap}
-.kitchen .upgrade-row{position:absolute;left:740px;right:142px;display:grid;grid-template-columns:minmax(0,1fr) 235px;align-items:center;column-gap:20px;min-height:124px}
-.kitchen .upgrade-row.u1{top:557px}
-.kitchen .upgrade-row.u2{top:733px}
-.kitchen .upgrade-text{font-size:47px;line-height:1.08;font-weight:700;color:#fff0cb;text-align:left}
-.kitchen .upgrade-price{height:118px;display:flex;align-items:center;justify-content:center;border-radius:24px}
-.kitchen .upgrade-price .money{font-size:93px;line-height:1;font-weight:700;white-space:nowrap}
+.kitchen .offer.secondary .dish-title{font-size:84px}
+.kitchen .offer.secondary .dish-line{font-size:48px}
+.kitchen .price-card{width:292px;height:182px;display:flex;align-items:center;justify-content:center;border-radius:30px}
+.kitchen .money.price{font-size:135px;line-height:1;font-weight:700;margin:0;white-space:nowrap}
+.kitchen .offer-divider{position:absolute;left:169px;right:169px;top:619px;height:3px;background:rgba(255,255,255,.7)}
 @media (prefers-reduced-motion:reduce){.kitchen .food-spot img{animation:none!important}}
 /* v4.30: unattended signage hides idle mouse even in Chrome --kiosk mode.
    Any pointer movement immediately restores it; controls/settings keep it visible. */
@@ -351,7 +353,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.44" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.45" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Welcome to Monday Night Bingo!</div>
@@ -397,7 +399,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.44" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.45" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -406,27 +408,37 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.44" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.45" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
-    <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
+    <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Specials</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
-      <div class="food-spot" aria-hidden="true"><img src="baked_potato_special.png?site=v4.44" alt=""></div>
-      <div class="dish-wrap">
-        <h2 class="dish-title" id="kitchenSpecial1Title">Baked Potato</h2>
-        <p class="dish-line" id="kitchenSpecial1Line1">with Butter and Sour Cream &amp; Fountain Drink</p>
-        <p class="dish-line" id="kitchenSpecial1Line2"></p>
+      <div class="offer primary">
+        <div class="food-spot" aria-hidden="true"><img src="club_sandwich_fries_drink.png?site=v4.45" alt=""></div>
+        <div class="dish-wrap">
+          <h2 class="dish-title" id="kitchenSpecial1Title">Crispy Chicken Club Sandwich</h2>
+          <p class="dish-line" id="kitchenSpecial1Line1">Bacon, Lettuce, Tomato and Mayo</p>
+          <p class="dish-line" id="kitchenSpecial1Line2">with Fries and Fountain Drink</p>
+        </div>
+        <div class="price-card tint-box"><div class="money price" id="kitchenSpecial1Price"></div></div>
       </div>
-      <div class="price-card tint-box"><div class="money price" id="kitchenSpecial1Price"></div></div>
-      <div class="upgrade-row u1"><div class="upgrade-text" id="kitchenUpgrade1">…with Cheddar Cheese, Butter and Sour Cream</div><div class="upgrade-price tint-box"><div class="money" id="kitchenUpgrade1Price"></div></div></div>
-      <div class="upgrade-row u2"><div class="upgrade-text" id="kitchenUpgrade2">…with Broccoli, Bacon, Cheddar Cheese, Butter and Sour Cream</div><div class="upgrade-price tint-box"><div class="money" id="kitchenUpgrade2Price"></div></div></div>
+      <div class="offer-divider"></div>
+      <div class="offer secondary">
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.45" alt=""></div>
+        <div class="dish-wrap">
+          <h2 class="dish-title" id="kitchenSpecial2Title">Loaded Fries</h2>
+          <p class="dish-line" id="kitchenSpecial2Line1">Cheddar, Bacon, Sour Cream</p>
+          <p class="dish-line" id="kitchenSpecial2Line2"></p>
+        </div>
+        <div class="price-card tint-box"><div class="money price" id="kitchenSpecial2Price"></div></div>
+      </div>
     </div>
     <div class="bottom-line"></div>
     <div class="disclaimer" id="kitchenDisclaimer">*Picture for illustrative purposes only. Actual food items may vary.</div>
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.44">v4.44</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.45">v4.45</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -434,8 +446,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.44</h2>
-  <p>Single baked potato special with two upgrade prices; connected Google Sheets fields remain editable.</p>
+  <h2>WTVFC Digital Signage · v4.45</h2>
+  <p>Two weekly kitchen specials; each title, description, and price is editable from Google Sheets.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
   <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
@@ -472,14 +484,14 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <h3>December 7 Additional Jackpot</h3>
   <div class="grid2"><div><label for="promoDateInput">Date text</label><input id="promoDateInput"></div><div><label for="promoAmountInput">Amount</label><input id="promoAmountInput"></div></div>
   <label for="promoNoteInput">Voucher note</label><textarea id="promoNoteInput"></textarea>
-  <h3>Kitchen Special</h3>
-  <p>Featured baked potato with two additional topping options.</p>
-  <div class="grid2"><div><label for="kitchenSpecial1TitleInput">Top special title</label><input id="kitchenSpecial1TitleInput"></div><div><label for="kitchenSpecial1PriceInput">Top special price</label><input id="kitchenSpecial1PriceInput"></div></div>
-  <label for="kitchenSpecial1Line1Input">Top special line 1</label><input id="kitchenSpecial1Line1Input">
-  <label for="kitchenSpecial1Line2Input">Top special line 2</label><input id="kitchenSpecial1Line2Input">
-  <label for="kitchenSpecial1PriceNoteInput">Top special price note</label><input id="kitchenSpecial1PriceNoteInput">
-  <div class="grid2"><div><label for="kitchenUpgrade1Input">Upgrade 1 text</label><input id="kitchenUpgrade1Input"></div><div><label for="kitchenUpgrade1PriceInput">Upgrade 1 price</label><input id="kitchenUpgrade1PriceInput"></div></div>
-  <div class="grid2"><div><label for="kitchenUpgrade2Input">Upgrade 2 text</label><input id="kitchenUpgrade2Input"></div><div><label for="kitchenUpgrade2PriceInput">Upgrade 2 price</label><input id="kitchenUpgrade2PriceInput"></div></div>
+  <h3>Kitchen Specials</h3>
+  <p>Two menu items, each controlled from Google Sheets.</p>
+  <div class="grid2"><div><label for="kitchenSpecial1TitleInput">First special name</label><input id="kitchenSpecial1TitleInput"></div><div><label for="kitchenSpecial1PriceInput">First price</label><input id="kitchenSpecial1PriceInput"></div></div>
+  <label for="kitchenSpecial1Line1Input">First description line 1</label><input id="kitchenSpecial1Line1Input">
+  <label for="kitchenSpecial1Line2Input">First description line 2</label><input id="kitchenSpecial1Line2Input">
+  <div class="grid2"><div><label for="kitchenSpecial2TitleInput">Second special name</label><input id="kitchenSpecial2TitleInput"></div><div><label for="kitchenSpecial2PriceInput">Second price</label><input id="kitchenSpecial2PriceInput"></div></div>
+  <label for="kitchenSpecial2Line1Input">Second description line 1</label><input id="kitchenSpecial2Line1Input">
+  <label for="kitchenSpecial2Line2Input">Second description line 2</label><input id="kitchenSpecial2Line2Input">
   <div class="row-buttons"><button id="save">Save & Apply</button><button id="reset">Reset Demo</button><button id="close">Close</button></div>
 </aside>
 <script>
@@ -490,7 +502,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
     earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$900', earlyGame5:'$1000', earlyRedLabelInput:'Red Ball', earlyRed:'$1,500', earlyWhiteLabelInput:'White Ball', earlyWhite:'$100+',
     promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
-    kitchenSpecial1TitleInput:'Baked Potato', kitchenSpecial1Line1Input:'with Butter and Sour Cream & Fountain Drink', kitchenSpecial1Line2Input:'', kitchenSpecial1PriceInput:'$5.50', kitchenSpecial1PriceNoteInput:'', kitchenUpgrade1Input:'…with Cheddar Cheese, Butter and Sour Cream', kitchenUpgrade1PriceInput:'$6', kitchenUpgrade2Input:'…with Broccoli, Bacon, Cheddar Cheese, Butter and Sour Cream', kitchenUpgrade2PriceInput:'$6.50'
+    kitchenSpecial1TitleInput:'Crispy Chicken Club Sandwich', kitchenSpecial1Line1Input:'Bacon, Lettuce, Tomato and Mayo', kitchenSpecial1Line2Input:'with Fries and Fountain Drink', kitchenSpecial1PriceInput:'$9.50', kitchenSpecial2TitleInput:'Loaded Fries', kitchenSpecial2Line1Input:'Cheddar, Bacon, Sour Cream', kitchenSpecial2Line2Input:'', kitchenSpecial2PriceInput:'$4'
   };
   var storeKey='wtvfc_signage_v41';
   var remoteConfigKey='wtvfc_remote_v435';
@@ -520,22 +532,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
           kitchenSpecial2PriceNoteInput: defaults.kitchenSpecial2PriceNoteInput
         });
       }
-      // Migrate the retired two-offering kitchen layout to the current baked-potato offering.
-      if(!saved.kitchenUpgrade1Input && !saved.kitchenUpgrade2Input){
-        saved=Object.assign({},saved,{
-          kitchenSpecial1TitleInput:defaults.kitchenSpecial1TitleInput,
-          kitchenSpecial1Line1Input:defaults.kitchenSpecial1Line1Input,
-          kitchenSpecial1Line2Input:defaults.kitchenSpecial1Line2Input,
-          kitchenSpecial1PriceInput:defaults.kitchenSpecial1PriceInput,
-          kitchenUpgrade1Input:defaults.kitchenUpgrade1Input,
-          kitchenUpgrade1PriceInput:defaults.kitchenUpgrade1PriceInput,
-          kitchenUpgrade2Input:defaults.kitchenUpgrade2Input,
-          kitchenUpgrade2PriceInput:defaults.kitchenUpgrade2PriceInput
-        });
-      }
       data=Object.assign(data,saved);
     }
   }catch(e){}
+  // Apply current week's new menu once per installation, while preserving all other saved settings.
+  // The remote spreadsheet will continue to override these with the same editable values.
+  try {
+    if(!localStorage.getItem('wtvfc_kitchen_initialized_v445')) {
+      ['kitchenSpecial1TitleInput','kitchenSpecial1Line1Input','kitchenSpecial1Line2Input',
+       'kitchenSpecial1PriceInput','kitchenSpecial2TitleInput','kitchenSpecial2Line1Input',
+       'kitchenSpecial2Line2Input','kitchenSpecial2PriceInput'].forEach(function(k){data[k]=defaults[k];});
+      localStorage.setItem('wtvfc_kitchen_initialized_v445','1');
+    }
+  } catch(e){}
   var sceneOrder=['welcome','jackpot','games','earlybird','promo','kitchen'];
   var durationMap={welcome:'welcomeSeconds', jackpot:'jackpotSeconds', games:'gamesSeconds', earlybird:'earlybirdSeconds', promo:'promoSeconds', kitchen:'kitchenSeconds'};
   var scenes=[].slice.call(document.querySelectorAll('.scene'));
@@ -616,7 +625,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function apply(){
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle||'Additional Jackpot');
-    setText('kitchenTitle', data.kitchenTitle||'Kitchen Special');
+    setText('kitchenTitle', data.kitchenTitle||'Kitchen Specials');
     setText('kitchenDisclaimer', data.kitchenDisclaimer||'*Picture for illustrative purposes only. Actual food items may vary.');
     setText('bankName',data.bankName||'Breakin\' Your Bank');
     setText('quickieName',data.quickieName||'Quickie');
@@ -642,10 +651,10 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     setText('kitchenSpecial1Line1',data.kitchenSpecial1Line1Input);
     setText('kitchenSpecial1Line2',data.kitchenSpecial1Line2Input);
     setHtml('kitchenSpecial1Price',moneyHTML(data.kitchenSpecial1PriceInput));
-    setText('kitchenUpgrade1',data.kitchenUpgrade1Input);
-    setHtml('kitchenUpgrade1Price',moneyHTML(data.kitchenUpgrade1PriceInput));
-    setText('kitchenUpgrade2',data.kitchenUpgrade2Input);
-    setHtml('kitchenUpgrade2Price',moneyHTML(data.kitchenUpgrade2PriceInput));
+    setText('kitchenSpecial2Title',data.kitchenSpecial2TitleInput);
+    setText('kitchenSpecial2Line1',data.kitchenSpecial2Line1Input);
+    setText('kitchenSpecial2Line2',data.kitchenSpecial2Line2Input);
+    setHtml('kitchenSpecial2Price',moneyHTML(data.kitchenSpecial2PriceInput));
     Object.keys(defaults).forEach(function(k){ if(el(k)) el(k).value=data[k]; });
   }
   var fieldMap={
@@ -654,7 +663,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     'Game Prizes':{bank_name:'bankName',bank_amount:'bank',bank_note:'envelopes',quickie_name:'quickieName',quickie_amount:'quickie',quickie_numbers:'quickieCount',all_nighter_name:'allNighterName',all_nighter_amount:'allNighter',all_nighter_numbers:'allNighterCount',station_name:'stationName',station_amount:'stationBonus'},
     'Early Birds':{game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5',red_ball_name:'earlyRedLabelInput',red_ball_amount:'earlyRed',white_ball_name:'earlyWhiteLabelInput',white_ball_amount:'earlyWhite'},
     'Additional Jackpot':{date_text:'promoDateInput',title:'promoTitle',amount:'promoAmountInput',note:'promoNoteInput'},
-    'Kitchen Special':{title:'kitchenTitle',dish:'kitchenSpecial1TitleInput',description_1:'kitchenSpecial1Line1Input',description_2:'kitchenSpecial1Line2Input',price:'kitchenSpecial1PriceInput',upgrade_1:'kitchenUpgrade1Input',upgrade_1_price:'kitchenUpgrade1PriceInput',upgrade_2:'kitchenUpgrade2Input',upgrade_2_price:'kitchenUpgrade2PriceInput',disclaimer:'kitchenDisclaimer'},
+    'Kitchen Special':{title:'kitchenTitle',dish:'kitchenSpecial1TitleInput',description_1:'kitchenSpecial1Line1Input',description_2:'kitchenSpecial1Line2Input',price:'kitchenSpecial1PriceInput',second_dish:'kitchenSpecial2TitleInput',second_description_1:'kitchenSpecial2Line1Input',second_description_2:'kitchenSpecial2Line2Input',second_price:'kitchenSpecial2PriceInput',disclaimer:'kitchenDisclaimer'},
     'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds'}
   };
   var remotePending=false,remoteLastCheck=0,remoteTimer=null,remoteScheduled=null;
@@ -697,10 +706,10 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function saveRemoteConfig(){remoteConfig.endpoint=el('sheetEndpoint').value.trim();remoteConfig.mode=el('contentMode').value;try{localStorage.setItem(remoteConfigKey,JSON.stringify(remoteConfig));}catch(e){}}
   function getDuration(sceneName){ var key=durationMap[sceneName]; return Math.max(4,Math.min(120,Number(data[key])||8)); }
   function schedule(){ clearTimeout(timer); if(paused||panel.classList.contains('open')||document.hidden) return; timer=setTimeout(function(){show(currentIndex+1);}, getDuration(sceneOrder[currentIndex])*1000); }
-  /* v4.44: Watch the published index.html, not a separate manifest.
+  /* v4.45: Watch the published index.html, not a separate manifest.
      Future versions need only update their existing HTML version number.
      The check is cache-busted and does not require Google Sheets or extra tokens. */
-  var runningSiteVersion='4.44';
+  var runningSiteVersion='4.45';
   var pendingSiteVersion='';
   var checkingSiteVersion=false;
   function checkForSiteUpdate(){
