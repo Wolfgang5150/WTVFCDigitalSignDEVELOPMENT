@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.46</title>
-<meta name="wtvfc-build-version" content="4.46">
+<title>WTVFC Digital Signage v4.47</title>
+<meta name="wtvfc-build-version" content="4.47">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.46') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.47') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -116,7 +116,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.46: Supports either one featured kitchen special or two stacked specials.
+/* v4.47: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -361,7 +361,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.46" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.47" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Welcome to Monday Night Bingo!</div>
@@ -407,7 +407,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.46" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.47" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -415,24 +415,24 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     <div class="note motion-rise" id="promoNote">One free play voucher awarded each week leading up to the jackpot!</div>
   </div>
 </section>
-<section class="scene kitchen" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.46" type="video/mp4"></video></div>
+<section class="scene kitchen single-offer" data-scene="kitchen">
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.47" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.46" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.47" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Haluski</h2>
-          <p class="dish-line" id="kitchenSpecial1Line1">Buttery cabbage and noodles</p>
-          <p class="dish-line" id="kitchenSpecial1Line2">with fountain drink</p>
+          <p class="dish-line" id="kitchenSpecial1Line1">Buttery cabbage and noodles with fountain drink</p>
+          <p class="dish-line" id="kitchenSpecial1Line2"></p>
         </div>
         <div class="price-card tint-box"><div class="money price" id="kitchenSpecial1Price"></div></div>
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.46" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.47" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -446,7 +446,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.46">v4.46</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.47">v4.47</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -454,8 +454,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.46</h2>
-  <p>Two weekly kitchen specials; each title, description, and price is editable from Google Sheets.</p>
+  <h2>WTVFC Digital Signage · v4.47</h2>
+  <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
   <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
@@ -492,8 +492,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <h3>December 7 Additional Jackpot</h3>
   <div class="grid2"><div><label for="promoDateInput">Date text</label><input id="promoDateInput"></div><div><label for="promoAmountInput">Amount</label><input id="promoAmountInput"></div></div>
   <label for="promoNoteInput">Voucher note</label><textarea id="promoNoteInput"></textarea>
-  <h3>Kitchen Specials</h3>
-  <p>Two menu items, each controlled from Google Sheets.</p>
+  <h3>Kitchen Special</h3>
+  <p>One featured item by default; a second item appears only when its Google Sheets fields contain content.</p>
   <div class="grid2"><div><label for="kitchenSpecial1TitleInput">First special name</label><input id="kitchenSpecial1TitleInput"></div><div><label for="kitchenSpecial1PriceInput">First price</label><input id="kitchenSpecial1PriceInput"></div></div>
   <label for="kitchenSpecial1Line1Input">First description line 1</label><input id="kitchenSpecial1Line1Input">
   <label for="kitchenSpecial1Line2Input">First description line 2</label><input id="kitchenSpecial1Line2Input">
@@ -510,7 +510,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
     earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$900', earlyGame5:'$1000', earlyRedLabelInput:'Red Ball', earlyRed:'$1,500', earlyWhiteLabelInput:'White Ball', earlyWhite:'$100+',
     promoDateInput:'December 7th', promoAmountInput:'$5,000', promoNoteInput:'One free play voucher awarded each week leading up to the jackpot!',
-    kitchenSpecial1TitleInput:'Haluski', kitchenSpecial1Line1Input:'Buttery cabbage and noodles', kitchenSpecial1Line2Input:'with fountain drink', kitchenSpecial1PriceInput:'$0.00', kitchenSpecial2TitleInput:'', kitchenSpecial2Line1Input:'', kitchenSpecial2Line2Input:'', kitchenSpecial2PriceInput:''
+    kitchenSpecial1TitleInput:'Haluski', kitchenSpecial1Line1Input:'Buttery cabbage and noodles with fountain drink', kitchenSpecial1Line2Input:'', kitchenSpecial1PriceInput:'$0.00', kitchenSpecial2TitleInput:'', kitchenSpecial2Line1Input:'', kitchenSpecial2Line2Input:'', kitchenSpecial2PriceInput:''
   };
   var storeKey='wtvfc_signage_v41';
   var remoteConfigKey='wtvfc_remote_v435';
@@ -546,13 +546,26 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   // Apply current week's new menu once per installation, while preserving all other saved settings.
   // The remote spreadsheet will continue to override these with the same editable values.
   try {
-    if(!localStorage.getItem('wtvfc_kitchen_initialized_v446')) {
+    if(!localStorage.getItem('wtvfc_kitchen_initialized_v447')) {
       ['kitchenSpecial1TitleInput','kitchenSpecial1Line1Input','kitchenSpecial1Line2Input',
        'kitchenSpecial1PriceInput','kitchenSpecial2TitleInput','kitchenSpecial2Line1Input',
        'kitchenSpecial2Line2Input','kitchenSpecial2PriceInput'].forEach(function(k){data[k]=defaults[k];});
-      localStorage.setItem('wtvfc_kitchen_initialized_v446','1');
+      data.kitchenTitle='Kitchen Special';
+      localStorage.setItem('wtvfc_kitchen_initialized_v447','1');
     }
   } catch(e){}
+  // v4.47: Existing installations can have a stale 4.45 kitchen tab cached.
+  // Discard only that tab's cached values on this one-time upgrade, preserving
+  // all other Google Sheets values, remote endpoint, and user preferences.
+  try {
+    if (!localStorage.getItem('wtvfc_kitchen_cache_migrated_v447')) {
+      if (remoteCache && remoteCache.tabs && remoteCache.tabs['Kitchen Special']) {
+        delete remoteCache.tabs['Kitchen Special'];
+        localStorage.setItem(remoteCacheKey, JSON.stringify(remoteCache));
+      }
+      localStorage.setItem('wtvfc_kitchen_cache_migrated_v447', '1');
+    }
+  } catch(e) {}
   var sceneOrder=['welcome','jackpot','games','earlybird','promo','kitchen'];
   var durationMap={welcome:'welcomeSeconds', jackpot:'jackpotSeconds', games:'gamesSeconds', earlybird:'earlybirdSeconds', promo:'promoSeconds', kitchen:'kitchenSeconds'};
   var scenes=[].slice.call(document.querySelectorAll('.scene'));
@@ -724,7 +737,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   /* v4.45: Watch the published index.html, not a separate manifest.
      Future versions need only update their existing HTML version number.
      The check is cache-busted and does not require Google Sheets or extra tokens. */
-  var runningSiteVersion='4.46';
+  var runningSiteVersion='4.47';
   var pendingSiteVersion='';
   var checkingSiteVersion=false;
   function checkForSiteUpdate(){
