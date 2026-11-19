@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.48</title>
-<meta name="wtvfc-build-version" content="4.48">
+<title>WTVFC Digital Signage v4.49</title>
+<meta name="wtvfc-build-version" content="4.49">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.48') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.49') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -116,7 +116,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.48: Supports either one featured kitchen special or two stacked specials.
+/* v4.49: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -148,7 +148,7 @@ button,input,textarea{font:inherit}
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 
-/* v4.48: Optional static poster screens added after Kitchen. */
+/* v4.49: Optional static poster screens added after Kitchen. */
 .poster-screen .scene-bg{background:#020611;display:flex;align-items:center;justify-content:center}
 .poster-screen .scene-bg img{display:block;width:100%;height:100%;object-fit:cover}
 
@@ -366,7 +366,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.48" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.49" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Join us for Monday Night Bingo!</div>
@@ -412,7 +412,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.48" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.49" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -421,13 +421,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen single-offer" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.48" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.49" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.48" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.49" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Haluski</h2>
           <p class="dish-line" id="kitchenSpecial1Line1">Buttery cabbage and noodles with fountain drink</p>
@@ -437,7 +437,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.48" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.49" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -452,13 +452,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </section>
 
 <section class="scene poster-screen" data-scene="poster1">
-  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.48" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
+  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.49" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster2">
-  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.48" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
+  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.49" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.48">v4.48</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.49">v4.49</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -466,7 +466,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.48</h2>
+  <h2>WTVFC Digital Signage · v4.49</h2>
   <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
@@ -573,7 +573,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_initialized_v448','1');
     }
   } catch(e){}
-  // v4.48: Existing installations can have a stale 4.45 kitchen tab cached.
+  // v4.49: Existing installations can have a stale 4.45 kitchen tab cached.
   // Discard only that tab's cached values on this one-time upgrade, preserving
   // all other Google Sheets values, remote endpoint, and user preferences.
   try {
@@ -614,7 +614,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       greet.appendChild(span);
     });
   }
+  // Keep the plain-text greeting separately: the animated letter spans contain
+  // nonbreaking spaces, so comparing element.textContent against normal spaces
+  // would falsely report a change every second and restart the neon effect.
+  var displayedWelcomeGreeting=el('welcomeGreeting').textContent;
   prepareWelcomeNeon();
+  function updateWelcomeGreeting(now){
+    var nextGreeting=currentWelcomeGreeting(now);
+    if(nextGreeting===displayedWelcomeGreeting)return;
+    displayedWelcomeGreeting=nextGreeting;
+    el('welcomeGreeting').textContent=nextGreeting;
+    prepareWelcomeNeon();
+    fitWelcomeText();
+  }
   /* Fit natural glyph widths with generous side margins. Only font-size changes;
      no horizontal transforms. Cap sizes so a shorter date cannot overtake greeting. */
   function fitWelcomeText(){
@@ -684,8 +696,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     setText('forecastTitle',data.forecastTitle||'TONIGHT\'S FORECAST');
     setText('forecastLocation',data.forecastLocation||'Belle Vernon area');
     setText('forecastWindow',data.forecastWindow||'Next 4 hours');
-    var greeting=currentWelcomeGreeting(new Date());
-    var g=el('welcomeGreeting');if(g.textContent!==greeting){g.textContent=greeting;prepareWelcomeNeon();fitWelcomeText();}
+    updateWelcomeGreeting(new Date());
     var poster1Scene=document.querySelector('.scene[data-scene="poster1"]'); if(poster1Scene) poster1Scene.style.display=isSceneEnabled('poster1')?'block':'none';
     var poster2Scene=document.querySelector('.scene[data-scene="poster2"]'); if(poster2Scene) poster2Scene.style.display=isSceneEnabled('poster2')?'block':'none';
     setHtml('jackpotPrize', moneyHTML(data.jackpot));
@@ -819,9 +830,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function tickClock(){
     var now=new Date();
     updateWelcomeDate(now);
-    var greeting=currentWelcomeGreeting(now);
-    var greetEl=el('welcomeGreeting');
-    if(greetEl && greetEl.textContent!==greeting){ greetEl.textContent=greeting; prepareWelcomeNeon(); fitWelcomeText(); }
+    updateWelcomeGreeting(now);
     var formatted=formatTime(now);
     var parts=formatted.split(':');
     // Only the colon blinks; date and clock numbers remain steady.
