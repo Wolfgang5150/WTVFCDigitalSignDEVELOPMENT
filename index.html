@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.49</title>
-<meta name="wtvfc-build-version" content="4.49">
+<title>WTVFC Digital Signage v4.50</title>
+<meta name="wtvfc-build-version" content="4.50">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.49') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.50') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -80,10 +80,18 @@ button,input,textarea{font:inherit}
 @keyframes awx-fog{0%,100%{transform:translateX(-2px);opacity:.86}50%{transform:translateX(3px);opacity:1}}
 /* Prefer macOS Times Bold (Times-Bold), not Times New Roman Bold. Welcome untouched. */
 .scene:not(.welcome) .content{font-family:Times,'Times New Roman',serif;font-weight:700}
-/* Screen 2: Tonight's Jackpot */
+/* Screen 2: This Week's Jackpot! */
 .jackpot .title{font-size:120px;line-height:1.02;margin:0 0 14px;font-weight:700}
 .jackpot .amount{font-size:360px;line-height:.92;margin:0;overflow:visible}
 .jackpot .count{font-size:72px;line-height:1.05;margin-top:44px;font-weight:700}
+/* v4.50: Jackpot-style weekly headline above existing 2x2 card layouts. */
+.games .weekly-screen-title,.earlybird .weekly-screen-title{
+  position:absolute;top:30px;left:110px;right:110px;margin:0;
+  font-size:96px;line-height:1.05;font-weight:700;text-align:center;
+  white-space:nowrap;color:#fff!important;
+  text-shadow:0 0 5px rgba(255,255,255,.95),0 0 19px rgba(255,255,255,.62),
+    0 0 42px rgba(255,255,255,.32),0 5px 10px rgba(0,0,0,.85);
+}
 /* Screen 3: Tonight games, fixed explicit layout */
 .games .box{position:absolute;width:760px;height:338px;padding:22px 28px;text-align:center}
 .games .box.bank{left:150px;top:168px}.games .box.quickie{left:1010px;top:168px}
@@ -116,7 +124,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.49: Supports either one featured kitchen special or two stacked specials.
+/* v4.50: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -148,7 +156,7 @@ button,input,textarea{font:inherit}
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 
-/* v4.49: Optional static poster screens added after Kitchen. */
+/* v4.50: Optional static poster screens added after Kitchen. */
 .poster-screen .scene-bg{background:#020611;display:flex;align-items:center;justify-content:center}
 .poster-screen .scene-bg img{display:block;width:100%;height:100%;object-fit:cover}
 
@@ -366,7 +374,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.49" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.50" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Join us for Monday Night Bingo!</div>
@@ -388,7 +396,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene jackpot" data-scene="jackpot">
   <div class="scene-bg"></div>
   <div class="content serif center-stack">
-    <h1 class="title motion-slam" id="jackpotTitle">Tonight's Jackpot</h1>
+    <h1 class="title motion-slam" id="jackpotTitle">This Week's Jackpot!</h1>
     <div class="money amount motion-gold" id="jackpotPrize">$1,350</div>
     <div class="count" id="jackpotNums">in 51 numbers</div>
   </div>
@@ -396,6 +404,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene games" data-scene="games">
   <div class="scene-bg"></div>
   <div class="content serif">
+    <h1 class="weekly-screen-title motion-slam">This Week at Monday Night Bingo!</h1>
     <div class="box bank tint-box"><div class="label single motion-slam" id="bankName">Breakin' Your Bank</div><div class="money amount bankamt motion-gold" id="bankPrize"></div><div class="note" id="bankEnvelopes">Only 10 envelopes left!</div></div>
     <div class="box quickie tint-box"><div class="label single motion-slam" id="quickieName">Quickie</div><div class="money amount quickieamt motion-gold" id="quickiePrize"></div><div class="note small" id="quickieNums">in 60 numbers</div></div>
     <div class="box all tint-box"><div class="label single motion-slam" id="allNighterName">All Nighter</div><div class="money amount allamt motion-gold" id="allNighterPrize"></div><div class="note small" id="allNighterNums">in 17 numbers</div></div>
@@ -405,6 +414,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 <section class="scene earlybird" data-scene="earlybird">
   <div class="scene-bg"></div>
   <div class="content serif">
+    <h1 class="weekly-screen-title motion-slam">This Week at Monday Night Bingo!</h1>
     <div class="card left tint-box"><div class="label motion-slam" id="earlyGame4Label">Game 4</div><div class="money amount motion-gold" id="earlyGame4Prize"></div></div>
     <div class="card right tint-box"><div class="label motion-slam" id="earlyGame5Label">Game 5</div><div class="money amount motion-gold" id="earlyGame5Prize"></div></div>
     <div class="card red tint-box"><div class="label motion-slam" id="earlyRedLabel">Red Ball</div><div class="money amount motion-gold" id="earlyRedPrize"></div></div>
@@ -412,7 +422,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.49" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.50" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -421,13 +431,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen single-offer" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.49" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.50" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.49" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.50" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Haluski</h2>
           <p class="dish-line" id="kitchenSpecial1Line1">Buttery cabbage and noodles with fountain drink</p>
@@ -437,7 +447,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.49" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.50" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -452,13 +462,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </section>
 
 <section class="scene poster-screen" data-scene="poster1">
-  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.49" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
+  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.50" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster2">
-  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.49" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
+  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.50" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.49">v4.49</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.50">v4.50</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -466,7 +476,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.49</h2>
+  <h2>WTVFC Digital Signage · v4.50</h2>
   <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
@@ -478,7 +488,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <h3>Screen Timing (seconds)</h3>
   <div class="grid2">
     <div><label for="welcomeSeconds">Welcome</label><input id="welcomeSeconds" type="number" min="4" max="120"></div>
-    <div><label for="jackpotSeconds">Tonight's Jackpot</label><input id="jackpotSeconds" type="number" min="4" max="120"></div>
+    <div><label for="jackpotSeconds">This Week's Jackpot!</label><input id="jackpotSeconds" type="number" min="4" max="120"></div>
     <div><label for="gamesSeconds">Tonight Games</label><input id="gamesSeconds" type="number" min="4" max="120"></div>
     <div><label for="earlybirdSeconds">Early Bird</label><input id="earlybirdSeconds" type="number" min="4" max="120"></div>
     <div><label for="promoSeconds">December 7 Promo</label><input id="promoSeconds" type="number" min="4" max="120"></div>
@@ -486,7 +496,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
   <h3>Welcome</h3>
   <p>The Welcome date updates automatically from the Mac’s system date. The headline is day/time aware: Monday from 5:00 PM through 11:59 PM shows "Welcome to Monday Night Bingo!" All other days and times show "Join us for Monday Night Bingo!"</p>
-  <h3>Tonight's Jackpot</h3>
+  <h3>This Week's Jackpot!</h3>
   <div class="grid2"><div><label for="jackpot">Amount</label><input id="jackpot"></div><div><label for="jackpotCount">Numbers text</label><input id="jackpotCount"></div></div>
   <h3>Tonight Games</h3>
   <div class="grid2">
@@ -573,7 +583,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_initialized_v448','1');
     }
   } catch(e){}
-  // v4.49: Existing installations can have a stale 4.45 kitchen tab cached.
+  // v4.50: Existing installations can have a stale 4.45 kitchen tab cached.
   // Discard only that tab's cached values on this one-time upgrade, preserving
   // all other Google Sheets values, remote endpoint, and user preferences.
   try {
@@ -685,6 +695,8 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     kitchenScene.classList.toggle('single-offer',!hasSecondary);
   }
   function apply(){
+    // Jackpot headline is fixed for v4.50. The sheet is updated to match.
+    data.jackpotTitle="This Week's Jackpot!";
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle||'Additional Jackpot');
     setText('kitchenTitle', data.kitchenTitle||'Kitchen Special');
