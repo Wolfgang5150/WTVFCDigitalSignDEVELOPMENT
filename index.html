@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.55</title>
+<title>WTVFC Digital Signage v4.56</title>
 <meta name="wtvfc-build-version" content="4.55">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.55') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.56') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -84,7 +84,7 @@ button,input,textarea{font:inherit}
 .jackpot .title{font-size:120px;line-height:1.02;margin:0 0 14px;font-weight:700}
 .jackpot .amount{font-size:360px;line-height:.92;margin:0;overflow:visible}
 .jackpot .count{font-size:72px;line-height:1.05;margin-top:44px;font-weight:700}
-/* v4.55: Jackpot-style weekly headline above existing 2x2 card layouts. */
+/* v4.56: Jackpot-style weekly headline above existing 2x2 card layouts. */
 .games .weekly-screen-title,.earlybird .weekly-screen-title{
   position:absolute;top:30px;left:110px;right:110px;margin:0;
   font-size:96px;line-height:1.05;font-weight:700;text-align:center;
@@ -127,7 +127,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.55: Supports either one featured kitchen special or two stacked specials.
+/* v4.56: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -159,7 +159,7 @@ button,input,textarea{font:inherit}
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 
-/* v4.55: Optional static poster screens added after Kitchen. */
+/* v4.56: Optional static poster screens added after Kitchen. */
 .poster-screen .scene-bg{background:#020611;display:flex;align-items:center;justify-content:center}
 .poster-screen .scene-bg img{display:block;width:100%;height:100%;object-fit:cover}
 
@@ -377,7 +377,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.55" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.56" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Join us for Monday Night Bingo!</div>
@@ -425,7 +425,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.55" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.56" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -435,13 +435,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen single-offer" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.55" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.56" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">This Week's Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.55" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="haluski_bowl_with_cola_and_sunburst.png?site=v4.56" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Haluski</h2>
           <p class="dish-line" id="kitchenSpecial1Line1">Buttery cabbage and noodles with fountain drink</p>
@@ -451,7 +451,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.55" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.56" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -466,16 +466,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </section>
 
 <section class="scene poster-screen" data-scene="poster1">
-  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.55" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
+  <div class="scene-bg"><img src="christmas-raffle-screen.png?site=v4.56" alt="Washington Township Volunteer Fire Company Christmas Raffle at Monday Night Bingo promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster2">
-  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.55" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
+  <div class="scene-bg"><img src="turkey-giveaway-screen.png?site=v4.56" alt="Washington Township Volunteer Fire Company turkey giveaway promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster3">
-  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.55" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
+  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.56" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
+</section>
+<section class="scene poster-screen" data-scene="poster4">
+  <div class="scene-bg"><img src="wifi-guest-screen.png?site=v4.56" alt="Free guest Wi-Fi information for Washington Township Volunteer Fire Company, including QR code, network name, and password."></div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.55">v4.55</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.56">v4.56</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -483,7 +486,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.55</h2>
+  <h2>WTVFC Digital Signage · v4.56</h2>
   <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
@@ -531,7 +534,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <label for="kitchenSpecial2Line2Input">Second description line 2</label><input id="kitchenSpecial2Line2Input">
 
   <h3>Optional Static Screens</h3>
-  <p>These three static screens appear after Kitchen. Each defaults to 15 seconds, with its own duration and on/off control. When Google Sheets mode is active, the central sheet controls these values.</p>
+  <p>These four static screens appear after Kitchen. Each defaults to 15 seconds, with its own duration and on/off control. When Google Sheets mode is active, the central sheet controls these values.</p>
   <div class="grid2">
     <div><label for="poster1Enabled">Christmas Raffle screen</label><select id="poster1Enabled" style="width:100%;padding:10px;background:#1d2940;color:white;border:1px solid #60708f;border-radius:6px"><option value="true">Enabled</option><option value="false">Disabled</option></select></div>
     <div><label for="poster1Seconds">Christmas Raffle duration (seconds)</label><input id="poster1Seconds" type="number" min="4" max="120" step="1"></div>
@@ -539,13 +542,15 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     <div><label for="poster2Seconds">Turkey Giveaway duration (seconds)</label><input id="poster2Seconds" type="number" min="4" max="120" step="1"></div>
     <div><label for="poster3Enabled">Facebook QR screen</label><select id="poster3Enabled" style="width:100%;padding:10px;background:#1d2940;color:white;border:1px solid #60708f;border-radius:6px"><option value="true">Enabled</option><option value="false">Disabled</option></select></div>
     <div><label for="poster3Seconds">Facebook QR duration (seconds)</label><input id="poster3Seconds" type="number" min="4" max="120" step="1"></div>
+    <div><label for="poster4Enabled">Guest Wi-Fi screen</label><select id="poster4Enabled" style="width:100%;padding:10px;background:#1d2940;color:white;border:1px solid #60708f;border-radius:6px"><option value="true">Enabled</option><option value="false">Disabled</option></select></div>
+    <div><label for="poster4Seconds">Guest Wi-Fi duration (seconds)</label><input id="poster4Seconds" type="number" min="4" max="120" step="1"></div>
   </div>
   <div class="row-buttons"><button id="save">Save & Apply</button><button id="reset">Reset Demo</button><button id="close">Close</button></div>
 </aside>
 <script>
 (function(){
   var defaults={
-    welcomeSeconds:'12', jackpotSeconds:'8', gamesSeconds:'10', earlybirdSeconds:'8', promoSeconds:'8', kitchenSeconds:'10', poster1Seconds:'15', poster2Seconds:'15', poster3Seconds:'15', poster1Enabled:'true', poster2Enabled:'true', poster3Enabled:'true',
+    welcomeSeconds:'12', jackpotSeconds:'8', gamesSeconds:'10', earlybirdSeconds:'8', promoSeconds:'8', kitchenSeconds:'10', poster1Seconds:'15', poster2Seconds:'15', poster3Seconds:'15', poster4Seconds:'15', poster1Enabled:'true', poster2Enabled:'true', poster3Enabled:'true', poster4Enabled:'true',
     jackpot:'$1,350', jackpotCount:'in 51 numbers',
     bank:'$5,135+', envelopes:'Only 10 envelopes left!', quickie:'$1,973.50+', quickieCount:'in 60 numbers', allNighter:'$481+', allNighterCount:'in 17 numbers', stationBonus:'$1,000+',
     earlyGame4LabelInput:'Game 4', earlyGame5LabelInput:'Game 5', earlyGame4:'$900', earlyGame5:'$1000', earlyRedLabelInput:'Red Ball', earlyRed:'$1,500', earlyWhiteLabelInput:'White Ball', earlyWhite:'$100+',
@@ -585,7 +590,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       data=Object.assign(data,saved);
     }
   }catch(e){}
-  // v4.55: Upgrade only the outdated promo heading. Do not alter other saved settings.
+  // v4.56: Upgrade only the outdated promo heading. Do not alter other saved settings.
   if(!data.promoTitle || data.promoTitle==='Monday Night Bingo Additional Jackpot')data.promoTitle='Additional Jackpot';
   // Apply current week's new menu once per installation, while preserving all other saved settings.
   // The remote spreadsheet will continue to override these with the same editable values.
@@ -598,7 +603,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_initialized_v448','1');
     }
   } catch(e){}
-  // v4.55: Existing installations can have a stale 4.45 kitchen tab cached.
+  // v4.56: Existing installations can have a stale 4.45 kitchen tab cached.
   // Discard only that tab's cached values on this one-time upgrade, preserving
   // all other Google Sheets values, remote endpoint, and user preferences.
   try {
@@ -610,19 +615,28 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_cache_migrated_v448', '1');
     }
   } catch(e) {}
-  // v4.55: Upgrade the old kitchen heading in local storage without changing other settings.
+  // v4.56: Upgrade the old kitchen heading in local storage without changing other settings.
   if(data.kitchenTitle==='Kitchen Special'||!data.kitchenTitle) data.kitchenTitle="This Week's Kitchen Special";
-  // v4.55: Move the three existing optional screens from 10-second defaults to 15 seconds once.
+  // v4.56: Move the three existing optional screens from 10-second defaults to 15 seconds once.
   // Preserve the user’s unrelated saved settings and Google Sheets endpoint.
   try {
     if(!localStorage.getItem('wtvfc_poster_timing_v455')){
-      ['poster1Seconds','poster2Seconds','poster3Seconds'].forEach(function(key){data[key]='15';});
+      ['poster1Seconds','poster2Seconds','poster3Seconds','poster4Seconds'].forEach(function(key){data[key]='15';});
       localStorage.setItem(storeKey,JSON.stringify(data));
       localStorage.setItem('wtvfc_poster_timing_v455','1');
     }
   }catch(e){}
-  var sceneOrder=['welcome','jackpot','games','earlybird','promo','kitchen','poster1','poster2','poster3'];
-  var durationMap={welcome:'welcomeSeconds', jackpot:'jackpotSeconds', games:'gamesSeconds', earlybird:'earlybirdSeconds', promo:'promoSeconds', kitchen:'kitchenSeconds', poster1:'poster1Seconds', poster2:'poster2Seconds', poster3:'poster3Seconds'};
+  // v4.56: Initialize the new optional Guest Wi-Fi screen without disturbing other saved settings.
+  try {
+    if(!localStorage.getItem('wtvfc_wifi_screen_initialized_v456')){
+      if(typeof data.poster4Seconds==='undefined' || data.poster4Seconds==='') data.poster4Seconds='15';
+      if(typeof data.poster4Enabled==='undefined' || data.poster4Enabled==='') data.poster4Enabled='true';
+      localStorage.setItem(storeKey,JSON.stringify(data));
+      localStorage.setItem('wtvfc_wifi_screen_initialized_v456','1');
+    }
+  }catch(e){}
+  var sceneOrder=['welcome','jackpot','games','earlybird','promo','kitchen','poster1','poster2','poster3','poster4'];
+  var durationMap={welcome:'welcomeSeconds', jackpot:'jackpotSeconds', games:'gamesSeconds', earlybird:'earlybirdSeconds', promo:'promoSeconds', kitchen:'kitchenSeconds', poster1:'poster1Seconds', poster2:'poster2Seconds', poster3:'poster3Seconds', poster4:'poster4Seconds'};
   var scenes=[].slice.call(document.querySelectorAll('.scene'));
   var currentIndex=0,timer=null,paused=false;
   var panel=document.getElementById('panel');
@@ -633,7 +647,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   Object.keys(videos).forEach(function(k){videos[k].loop=false; videos[k].muted=true; videos[k].playsInline=true;});
   function el(id){return document.getElementById(id)}
   function isTruthy(value){return String(value).toLowerCase()!=='false' && String(value)!=='0' && String(value).trim()!=='';}
-  function isSceneEnabled(sceneName){ if(sceneName==='poster1') return isTruthy(data.poster1Enabled); if(sceneName==='poster2') return isTruthy(data.poster2Enabled); if(sceneName==='poster3') return isTruthy(data.poster3Enabled); return true; }
+  function isSceneEnabled(sceneName){ if(sceneName==='poster1') return isTruthy(data.poster1Enabled); if(sceneName==='poster2') return isTruthy(data.poster2Enabled); if(sceneName==='poster3') return isTruthy(data.poster3Enabled); if(sceneName==='poster4') return isTruthy(data.poster4Enabled); return true; }
   function findEnabledIndex(startIndex, step){ var len=sceneOrder.length; var idx=((startIndex%len)+len)%len; step=step<0?-1:1; for(var c=0;c<len;c++){ if(isSceneEnabled(sceneOrder[idx])) return idx; idx=(idx+step+len)%len; } return ((startIndex%len)+len)%len; }
   function currentWelcomeGreeting(now){ return (now.getDay()===1 && now.getHours()>=17) ? (data.mondayGreeting||'Welcome to Monday Night Bingo!') : (data.otherGreeting||'Join us for Monday Night Bingo!'); }
   // Build individual lit letters once. The original demo used 35ms delays per character.
@@ -721,7 +735,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     kitchenScene.classList.toggle('single-offer',!hasSecondary);
   }
   function apply(){
-    // Jackpot headline is fixed for v4.55. The sheet is updated to match.
+    // Jackpot headline is fixed for v4.56. The sheet is updated to match.
     data.jackpotTitle="This Week's Jackpot!";
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle==='Monday Night Bingo Additional Jackpot' ? 'Additional Jackpot' : (data.promoTitle||'Additional Jackpot'));
@@ -741,6 +755,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     var poster1Scene=document.querySelector('.scene[data-scene="poster1"]'); if(poster1Scene) poster1Scene.style.display=isSceneEnabled('poster1')?'block':'none';
     var poster2Scene=document.querySelector('.scene[data-scene="poster2"]'); if(poster2Scene) poster2Scene.style.display=isSceneEnabled('poster2')?'block':'none';
     var poster3Scene=document.querySelector('.scene[data-scene="poster3"]'); if(poster3Scene) poster3Scene.style.display=isSceneEnabled('poster3')?'block':'none';
+    var poster4Scene=document.querySelector('.scene[data-scene="poster4"]'); if(poster4Scene) poster4Scene.style.display=isSceneEnabled('poster4')?'block':'none';
     setHtml('jackpotPrize', moneyHTML(data.jackpot));
     setText('jackpotNums', data.jackpotCount);
     setHtml('bankPrize', moneyHTML(data.bank)); setText('bankEnvelopes', data.envelopes);
@@ -770,7 +785,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     'Early Birds':{weekly_heading:'earlybirdWeeklyTitleInput',game4_name:'earlyGame4LabelInput',game4_amount:'earlyGame4',game5_name:'earlyGame5LabelInput',game5_amount:'earlyGame5',red_ball_name:'earlyRedLabelInput',red_ball_amount:'earlyRed',white_ball_name:'earlyWhiteLabelInput',white_ball_amount:'earlyWhite'},
     'Additional Jackpot':{bingo_label:'promoBingoLabelInput',date_text:'promoDateInput',title:'promoTitle',amount:'promoAmountInput',note:'promoNoteInput'},
     'Kitchen Special':{title:'kitchenTitle',dish:'kitchenSpecial1TitleInput',description_1:'kitchenSpecial1Line1Input',description_2:'kitchenSpecial1Line2Input',price:'kitchenSpecial1PriceInput',second_dish:'kitchenSpecial2TitleInput',second_description_1:'kitchenSpecial2Line1Input',second_description_2:'kitchenSpecial2Line2Input',second_price:'kitchenSpecial2PriceInput',disclaimer:'kitchenDisclaimer'},
-    'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds',christmas_raffle_seconds:'poster1Seconds',christmas_raffle_enabled:'poster1Enabled',turkey_giveaway_seconds:'poster2Seconds',turkey_giveaway_enabled:'poster2Enabled',facebook_qr_seconds:'poster3Seconds',facebook_qr_enabled:'poster3Enabled'}
+    'General Settings':{welcome_seconds:'welcomeSeconds',jackpot_seconds:'jackpotSeconds',games_seconds:'gamesSeconds',earlybird_seconds:'earlybirdSeconds',promo_seconds:'promoSeconds',kitchen_seconds:'kitchenSeconds',christmas_raffle_seconds:'poster1Seconds',christmas_raffle_enabled:'poster1Enabled',turkey_giveaway_seconds:'poster2Seconds',turkey_giveaway_enabled:'poster2Enabled',facebook_qr_seconds:'poster3Seconds',facebook_qr_enabled:'poster3Enabled',guest_wifi_seconds:'poster4Seconds',guest_wifi_enabled:'poster4Enabled'}
   };
   var remotePending=false,remoteLastCheck=0,remoteTimer=null,remoteScheduled=null;
   function remoteStatus(msg){if(el('sheetStatus'))el('sheetStatus').textContent=msg;}
