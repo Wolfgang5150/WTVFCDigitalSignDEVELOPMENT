@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.62</title>
-<meta name="wtvfc-build-version" content="4.62">
+<title>WTVFC Digital Signage v4.63</title>
+<meta name="wtvfc-build-version" content="4.63">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
 body{font-family:Arial,Helvetica,sans-serif;user-select:none}
@@ -25,42 +25,45 @@ button,input,textarea{font:inherit}
 .tint-box{background:rgba(4,17,48,.50);border:2px solid rgba(255,255,255,.42);border-radius:34px;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 10px 30px rgba(0,0,0,.14)}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-/* v4.62: Rebuilt Welcome scene — real editable DOM layers over decorative winter artwork.
-   Other scenes, settings, live API, refresh, and scene scheduling are untouched. */
-.welcome .scene-bg{background:linear-gradient(180deg,rgba(0,5,25,.20),rgba(0,7,25,.20)),url('welcome-winter-night.png?site=v4.62') center center/cover no-repeat}
-.welcome .scene-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,5,26,.12) 0%,rgba(1,7,30,.48) 42%,rgba(1,8,32,.60) 75%,rgba(0,5,19,.14) 100%);pointer-events:none}
-.welcome .welcome-border{position:absolute;inset:10px;border:5px solid rgba(244,188,77,.85);box-shadow:inset 0 0 0 2px #7e2412,0 0 14px #000a;z-index:2;pointer-events:none}
-.welcome .welcome-company{position:absolute;left:0;top:24px;width:1920px;z-index:4;text-align:center;text-shadow:0 4px 1px #2c0c08,0 8px 12px #000e}
-.welcome .welcome-company .company-main{display:block;font:900 67px/.94 Georgia,'Times New Roman',serif;letter-spacing:1.2px;white-space:nowrap;color:#fff2c5;-webkit-text-stroke:1px #6c3413}
-.welcome .welcome-company .company-sub{display:block;margin-top:9px;font:800 34px/1 Georgia,'Times New Roman',serif;letter-spacing:5px;color:#ffedbd}
-.welcome .welcome-company:after{content:"";display:block;height:4px;margin:10px 68px 0;background:linear-gradient(90deg,transparent,#e6af50,#fff0b0,#e6af50,transparent)}
-.welcome-message{position:absolute;left:230px;right:230px;top:168px;height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:4;font:italic 900 116px/.96 Georgia,'Times New Roman',serif;letter-spacing:-3px;color:#fff0c4;text-shadow:0 4px 0 #9e270b,0 8px 2px #3a100b,0 14px 24px #000,0 0 25px #ff7d1b;white-space:nowrap}
-.welcome-message .welcome-line{display:block;max-width:100%;white-space:nowrap}
+/* v4.63 — Option 1: real Station 42 winter firehouse background and fully live Welcome scene.
+   Every content element remains HTML, not part of the decorative image. */
+.welcome .scene-bg{background:url('welcome-winter-firehouse.png?site=v4.63') center center/cover no-repeat}
+.welcome .scene-bg:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(2,9,30,.46) 0%,rgba(4,13,35,.13) 15%,rgba(3,13,40,.06) 28%,rgba(1,8,30,.45) 40%,rgba(1,8,30,.22) 58%,rgba(3,10,29,.48) 100%)}
+.welcome .welcome-border{position:absolute;inset:8px;border:5px solid #e5b958;box-shadow:inset 0 0 0 2px #77200b,inset 0 0 24px #080b22,0 0 12px #000b;z-index:2;pointer-events:none}
+.welcome .welcome-company{position:absolute;left:0;top:17px;width:1920px;z-index:4;text-align:center;text-shadow:0 3px 1px #341008,0 7px 12px #000e}
+.welcome .welcome-company .company-main{display:block;font:900 71px/.98 Georgia,'Times New Roman',serif;letter-spacing:1.4px;white-space:nowrap;color:#fff0bd;-webkit-text-stroke:1px #653412}
+.welcome .welcome-company .company-sub{display:block;margin-top:7px;font:800 35px/1 Georgia,'Times New Roman',serif;letter-spacing:6px;color:#fff1c7}
+.welcome .welcome-company:after{content:"";display:block;height:3px;margin:11px 260px 0;background:linear-gradient(90deg,transparent,#f5d67c 20%,#fff2a8 50%,#f5d67c 80%,transparent)}
+/* Greeting is one centered line, as in the chosen mockup. The JS fits actual glyph widths. */
+.welcome-message{position:absolute;left:58px;right:58px;top:397px;height:119px;display:flex;align-items:center;justify-content:center;text-align:center;z-index:4;font:italic 900 108px/1 Georgia,'Times New Roman',serif;letter-spacing:-2.5px;color:#fff0b2;text-shadow:0 3px 1px #a83b07,0 6px 0 #6e2308,0 10px 15px #000,0 0 16px #ffb83a;white-space:nowrap;pointer-events:none}
+.welcome-message .welcome-line{display:block;white-space:nowrap;max-width:100%}
 .welcome-message .neon-letter{display:inline-block;white-space:pre;vertical-align:baseline}
-.welcome.play-intro .welcome-message .neon-letter{animation:wtvfc-neon-letter 1.9s ease both;animation-delay:calc(var(--i)*28ms)}
+.welcome.play-intro .welcome-message .neon-letter{animation:wtvfc-neon-letter 1.9s ease both;animation-delay:calc(var(--i)*24ms)}
 @keyframes wtvfc-neon-letter{0%,8%,14%,24%{opacity:.15;text-shadow:none}10%,18%,26%{opacity:.9;text-shadow:0 0 14px #ffd36f}45%,100%{opacity:1;text-shadow:0 0 8px #ffeac4,0 0 20px #f79636}}
 @media(prefers-reduced-motion:reduce){.welcome.play-intro .welcome-message .neon-letter{animation:none;opacity:1}}
-.welcome-info{position:absolute;top:425px;left:95px;right:95px;height:102px;z-index:5;display:flex;align-items:center;justify-content:center;gap:34px;padding:0 35px;background:linear-gradient(180deg,#780c15eb,#3b0810ee);border:4px solid #d6a54c;border-radius:54px;box-shadow:0 6px 0 #4e1709,0 15px 22px #000b,inset 0 0 14px #a43724;font:800 58px/1 Georgia,'Times New Roman',serif;text-align:center;white-space:nowrap;color:#fff2c4;text-shadow:0 3px 8px #000}
+.welcome-info{position:absolute;top:526px;left:98px;right:98px;height:105px;z-index:5;display:flex;align-items:center;justify-content:center;gap:35px;padding:0 48px;background:linear-gradient(180deg,#a9131aec,#5e020bec 82%,#39030bed);border:4px solid #f5c85d;border-radius:60px;box-shadow:0 5px 0 #6e230b,0 10px 26px #000b,inset 0 0 16px #d7332b88;font:800 60px/1 Georgia,'Times New Roman',serif;text-align:center;white-space:nowrap;color:#fff6d9;text-shadow:0 3px 7px #000c}
 .welcome-date,.welcome-clock{font:inherit;white-space:nowrap;color:inherit;font-variant-numeric:tabular-nums}
-.welcome-clock{font-size:1.1em}
-.welcome-bullet{height:55px;width:3px;background:#f0d08e;opacity:.85;font-size:0;flex:none}
+.welcome-clock{font-size:1.07em}
+.welcome-bullet{height:60px;width:3px;background:#ffe6a0;opacity:.94;font-size:0;flex:none}
 .clock-colon{display:inline-block;animation:wtvfc-colon-blink 1s steps(1,end) infinite}
 @keyframes wtvfc-colon-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.clock-colon{animation:none;opacity:1}}
-.welcome .weather-wrap{position:absolute;left:110px;right:110px;bottom:65px;height:430px;padding:10px 13px 14px;z-index:4;border:4px solid #e0b35e;border-radius:22px;background:linear-gradient(180deg,rgba(4,21,53,.87),rgba(7,15,37,.92));box-shadow:0 12px 30px #000c,0 0 0 2px #653415,inset 0 0 35px #3578b02b}
-.welcome .weather-head{display:flex;justify-content:center;align-items:center;position:relative;height:76px;gap:20px;padding:0 15px;border-radius:11px;background:linear-gradient(180deg,#fee4a0,#d9a750);border:2px solid #8c4e18;box-shadow:0 3px 4px #0008;color:#351b0b}
-.welcome .weather-title{font:900 36px/1.08 Georgia,'Times New Roman',serif;letter-spacing:0;white-space:nowrap;text-align:center;color:#311a0c;text-shadow:0 1px #fff3cd}
+/* Keep each independent weather card readable like the approved four-panel concept.
+   The existing Open-Meteo hourly forecast and animated SVG icon engine are unchanged. */
+.welcome .weather-wrap{position:absolute;left:64px;right:64px;bottom:35px;height:402px;padding:0;z-index:4;border:0;border-radius:0;background:transparent;box-shadow:none}
+.welcome .weather-head{display:flex;justify-content:center;align-items:center;position:relative;height:72px;gap:16px;padding:0 22px;border-radius:16px;background:linear-gradient(180deg,#fff3bbf5,#d6a048f2);border:3px solid #8d4b13;box-shadow:0 5px 12px #000b;color:#341905}
+.welcome .weather-title{font:900 35px/1 Georgia,'Times New Roman',serif;letter-spacing:0;white-space:nowrap;text-align:center;color:#371e0b;text-shadow:0 1px #fff7d5}
 .welcome .weather-title span{color:inherit;font-weight:inherit;letter-spacing:0;text-transform:none}
 .welcome .weather-title #forecastTitle{text-transform:uppercase}
-.welcome .weather-updated{position:absolute;right:15px;bottom:4px;font:700 15px Arial,sans-serif;color:#604014;opacity:.86}
-.welcome .forecast-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:15px}
-.welcome .slot{height:300px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:0;text-align:center;padding:13px 8px 12px;border:3px solid #e5ad53;border-radius:22px;background:linear-gradient(180deg,#133e79f5,#061c43ee);box-shadow:inset 0 0 21px #2c8be22b,0 8px 18px #000b;overflow:hidden}
-.welcome .wx-time{font:900 51px/1 Georgia,'Times New Roman',serif;color:#fff8e8;text-shadow:0 4px 6px #000b;white-space:nowrap}
-.welcome .wx-main{display:flex;align-items:center;justify-content:center;gap:12px;min-height:148px;flex:0 0 148px}
-.welcome .wx-icon{width:140px;height:140px;flex:0 0 140px;display:flex;align-items:center;justify-content:center;margin:0}
-.welcome .wx-icon svg{width:139px;height:139px;overflow:visible;filter:drop-shadow(0 7px 4px #0009)}
-.welcome .wx-temp{font:900 106px/.98 Georgia,'Times New Roman',serif;color:#fff;letter-spacing:-5px;white-space:nowrap;text-shadow:0 5px 8px #000b}
-.welcome .wx-pop{margin:0;font:900 40px/1 Georgia,'Times New Roman',serif;color:#e7f2ff;white-space:nowrap;text-shadow:0 3px 4px #000b}
+.welcome .weather-updated{position:absolute;right:12px;bottom:3px;font:700 14px Arial,sans-serif;color:#754914;opacity:.86}
+.welcome .forecast-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:16px}
+.welcome .slot{height:305px;min-height:305px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:0;text-align:center;padding:14px 8px 11px;border:4px solid #f6cb61;border-radius:40px;background:linear-gradient(180deg,#103e75f5 0%,#061d47f9 42%,#061835f9 100%);box-shadow:inset 0 0 18px #3987d32f,0 7px 18px #000a,0 0 0 2px #5c280e;overflow:hidden}
+.welcome .wx-time{font:900 50px/1 Georgia,'Times New Roman',serif;color:#fff8e8;text-shadow:0 4px 6px #000b;white-space:nowrap}
+.welcome .wx-main{display:flex;align-items:center;justify-content:center;gap:7px;min-height:151px;flex:0 0 151px}
+.welcome .wx-icon{width:132px;height:132px;flex:0 0 132px;display:flex;align-items:center;justify-content:center;margin:0}
+.welcome .wx-icon svg{width:131px;height:131px;overflow:visible;filter:drop-shadow(0 7px 4px #0009)}
+.welcome .wx-temp{font:900 103px/.98 Georgia,'Times New Roman',serif;color:#fff;letter-spacing:-5px;white-space:nowrap;text-shadow:0 5px 8px #000b}
+.welcome .wx-pop{margin:0;font:900 39px/1 Georgia,'Times New Roman',serif;color:#e7f2ff;white-space:nowrap;text-shadow:0 3px 4px #000b}
 /* Animated weather icons */
 .awx .sun-core{fill:#ffd86a}.awx .sun-ray{stroke:#ffd86a;stroke-width:3.6;stroke-linecap:round}.awx .cloud-fill{fill:#eef4ff}.awx .cloud-stroke{stroke:#dce6f7;stroke-width:2;fill:none}.awx .drop{stroke:#77c4ff;stroke-width:3.2;stroke-linecap:round}.awx .flake{fill:#eef7ff}.awx .bolt{fill:#ffd04b}.awx .mist{stroke:#dfe8f6;stroke-width:3.2;stroke-linecap:round}.awx .sun-rays{transform-origin:32px 32px;animation:awx-rotate 16s linear infinite}.awx-sun .sun-core,.awx-partly .sun-core{animation:awx-pulse 3.6s ease-in-out infinite}.awx-cloud .cloud-group,.awx-rain .cloud-group,.awx-drizzle .cloud-group,.awx-storm .cloud-group,.awx-snow .cloud-group{animation:awx-drift 4.2s ease-in-out infinite}.awx-rain .d1{animation:awx-rain 1.05s linear -.1s infinite}.awx-rain .d2{animation:awx-rain 1.15s linear -.45s infinite}.awx-rain .d3{animation:awx-rain 1.1s linear -.75s infinite}.awx-drizzle .d1{animation:awx-rain 1.5s linear -.1s infinite}.awx-drizzle .d2{animation:awx-rain 1.7s linear -.45s infinite}.awx-storm .d1{animation:awx-rain 1s linear -.1s infinite}.awx-storm .d2{animation:awx-rain 1.15s linear -.45s infinite}.awx-storm .bolt{animation:awx-flash 2.6s steps(1,end) infinite}.awx-snow .f1{animation:awx-snow 2.5s ease-in-out -.2s infinite}.awx-snow .f2{animation:awx-snow 2.7s ease-in-out -.9s infinite}.awx-snow .f3{animation:awx-snow 2.9s ease-in-out -1.2s infinite}.awx-fog .mist1{animation:awx-fog 5s ease-in-out infinite}.awx-fog .mist2{animation:awx-fog 5.5s ease-in-out -.9s infinite}.awx-fog .mist3{animation:awx-fog 6s ease-in-out -1.6s infinite}.awx-partly .cloud-group{animation:awx-drift 4.4s ease-in-out infinite}.awx-partly .sun-rays{transform-origin:21px 25px;transform-box:view-box}
 @keyframes awx-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -76,7 +79,7 @@ button,input,textarea{font:inherit}
 .jackpot .title{font-size:120px;line-height:1.02;margin:0 0 14px;font-weight:700}
 .jackpot .amount{font-size:360px;line-height:.92;margin:0;overflow:visible}
 .jackpot .count{font-size:72px;line-height:1.05;margin-top:44px;font-weight:700}
-/* v4.62: Jackpot-style weekly headline above existing 2x2 card layouts. */
+/* v4.63: Jackpot-style weekly headline above existing 2x2 card layouts. */
 .games .weekly-screen-title,.earlybird .weekly-screen-title{
   position:absolute;top:30px;left:110px;right:110px;margin:0;
   font-size:96px;line-height:1.05;font-weight:700;text-align:center;
@@ -119,7 +122,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.62: Supports either one featured kitchen special or two stacked specials.
+/* v4.63: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -151,7 +154,7 @@ button,input,textarea{font:inherit}
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 
-/* v4.62: Optional static poster screens added after Kitchen. */
+/* v4.63: Optional static poster screens added after Kitchen. */
 .poster-screen .scene-bg{background:#020611;display:flex;align-items:center;justify-content:center}
 .poster-screen .scene-bg img{display:block;width:100%;height:100%;object-fit:cover}
 
@@ -369,7 +372,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.62" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.63" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="welcome-border" aria-hidden="true"></div><div class="content">
     <div class="welcome-company" aria-label="Washington Township Volunteer Fire Company"><span class="company-main">WASHINGTON TOWNSHIP</span><span class="company-sub">VOLUNTEER FIRE COMPANY</span></div>
@@ -418,7 +421,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.62" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.63" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -428,13 +431,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen single-offer" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.62" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.63" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">This Week's Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="pierogies_with_fountain_drink.png?site=v4.62" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="pierogies_with_fountain_drink.png?site=v4.63" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Pierogies</h2>
           <p class="dish-line" id="kitchenSpecial1Line1">butter and onions and a fountain drink</p>
@@ -444,7 +447,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.62" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.63" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -459,19 +462,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </section>
 
 <section class="scene poster-screen" data-scene="poster1">
-  <div class="scene-bg"><img src="gift-certificates-screen.png?site=v4.62" alt="Washington Township Volunteer Fire Company Gift Certificates Now Available promotional screen"></div>
+  <div class="scene-bg"><img src="gift-certificates-screen.png?site=v4.63" alt="Washington Township Volunteer Fire Company Gift Certificates Now Available promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster2">
-  <div class="scene-bg"><img src="santas-helper-bash-screen.png?site=v4.62" alt="Santa's Helper Bash holiday event at Washington Township Volunteer Fire Company, December 13, 2026"></div>
+  <div class="scene-bg"><img src="santas-helper-bash-screen.png?site=v4.63" alt="Santa's Helper Bash holiday event at Washington Township Volunteer Fire Company, December 13, 2026"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster3">
-  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.62" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
+  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.63" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
 </section>
 <section class="scene poster-screen" data-scene="poster4">
-  <div class="scene-bg"><img src="wifi-guest-screen.png?site=v4.62" alt="Free guest Wi-Fi information for Washington Township Volunteer Fire Company, including QR code, network name, and password."></div>
+  <div class="scene-bg"><img src="wifi-guest-screen.png?site=v4.63" alt="Free guest Wi-Fi information for Washington Township Volunteer Fire Company, including QR code, network name, and password."></div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.61">v4.62</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.63">v4.63</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -479,7 +482,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.62</h2>
+  <h2>WTVFC Digital Signage · v4.63</h2>
   <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
   <p>The public, read-only Google Sheets endpoint is preconfigured for every device. Existing manually saved settings still work. The spreadsheet remains editable only by authorized editors.</p>
@@ -555,7 +558,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   var storeKey='wtvfc_signage_v48';
   var remoteConfigKey='wtvfc_remote_v435';
   var remoteCacheKey='wtvfc_remote_cache_v435';
-  // v4.62: The deployed read-only signage feed is public and shared by every visitor.
+  // v4.63: The deployed read-only signage feed is public and shared by every visitor.
   // No per-browser setup is necessary; explicit existing local overrides are retained.
   var sharedSheetEndpoint='https://script.google.com/macros/s/AKfycbza4nkEmTuZJzD-Z4GJuFKIDRPnXfkCI3CQXDUwgu2wIXuqTcpnXhI5RP5tNRNNhJSG/exec';
   var remoteConfig={endpoint:sharedSheetEndpoint,mode:'remote'};
@@ -588,7 +591,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       data=Object.assign(data,saved);
     }
   }catch(e){}
-  // v4.62: Upgrade only the outdated promo heading. Do not alter other saved settings.
+  // v4.63: Upgrade only the outdated promo heading. Do not alter other saved settings.
   if(!data.promoTitle || data.promoTitle==='Monday Night Bingo Additional Jackpot')data.promoTitle='Additional Jackpot';
   // Apply current week's new menu once per installation, while preserving all other saved settings.
   // The remote spreadsheet will continue to override these with the same editable values.
@@ -601,7 +604,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_initialized_v448','1');
     }
   } catch(e){}
-  // v4.62: Existing installations can have a stale 4.45 kitchen tab cached.
+  // v4.63: Existing installations can have a stale 4.45 kitchen tab cached.
   // Discard only that tab's cached values on this one-time upgrade, preserving
   // all other Google Sheets values, remote endpoint, and user preferences.
   try {
@@ -613,9 +616,9 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_cache_migrated_v448', '1');
     }
   } catch(e) {}
-  // v4.62: Upgrade the old kitchen heading in local storage without changing other settings.
+  // v4.63: Upgrade the old kitchen heading in local storage without changing other settings.
   if(data.kitchenTitle==='Kitchen Special'||!data.kitchenTitle) data.kitchenTitle="This Week's Kitchen Special";
-  // v4.62: Move the three existing optional screens from 10-second defaults to 15 seconds once.
+  // v4.63: Move the three existing optional screens from 10-second defaults to 15 seconds once.
   // Preserve the user’s unrelated saved settings and Google Sheets endpoint.
   try {
     if(!localStorage.getItem('wtvfc_poster_timing_v455')){
@@ -624,7 +627,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_poster_timing_v455','1');
     }
   }catch(e){}
-  // v4.62: Initialize the new optional Guest Wi-Fi screen without disturbing other saved settings.
+  // v4.63: Initialize the new optional Guest Wi-Fi screen without disturbing other saved settings.
   try {
     if(!localStorage.getItem('wtvfc_wifi_screen_initialized_v456')){
       if(typeof data.poster4Seconds==='undefined' || data.poster4Seconds==='') data.poster4Seconds='15';
@@ -633,7 +636,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_wifi_screen_initialized_v456','1');
     }
   }catch(e){}
-  // v4.62: Initialize Pierogies special once; preserve every other local setting.
+  // v4.63: Initialize Pierogies special once; preserve every other local setting.
   try {
     if(!localStorage.getItem('wtvfc_kitchen_initialized_v458')){
       ['kitchenSpecial1TitleInput','kitchenSpecial1Line1Input','kitchenSpecial1Line2Input',
@@ -658,29 +661,18 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   function isSceneEnabled(sceneName){ if(sceneName==='poster1') return isTruthy(data.poster1Enabled); if(sceneName==='poster2') return isTruthy(data.poster2Enabled); if(sceneName==='poster3') return isTruthy(data.poster3Enabled); if(sceneName==='poster4') return isTruthy(data.poster4Enabled); return true; }
   function findEnabledIndex(startIndex, step){ var len=sceneOrder.length; var idx=((startIndex%len)+len)%len; step=step<0?-1:1; for(var c=0;c<len;c++){ if(isSceneEnabled(sceneOrder[idx])) return idx; idx=(idx+step+len)%len; } return ((startIndex%len)+len)%len; }
   function currentWelcomeGreeting(now){ return (now.getDay()===1 && now.getHours()>=17) ? (data.mondayGreeting||'Welcome to Monday Night Bingo!') : (data.otherGreeting||'Join us for Monday Night Bingo!'); }
-  // v4.62: Two deliberate lines, with separate letter animations and no distorted glyphs.
+  // v4.63: Option 1 single-line illuminated headline. Each letter animates once per entry.
   function prepareWelcomeNeon(){
     var greet=el('welcomeGreeting'), message=greet.textContent.trim();
     greet.textContent='';
-    var pieces=message.split(/\s+/), breakAt=1, best=Infinity;
-    for(var p=1;p<pieces.length;p++){
-      var diff=Math.abs(pieces.slice(0,p).join(' ').length-pieces.slice(p).join(' ').length);
-      if(diff<best){best=diff;breakAt=p;}
-    }
-    // Prefer the visually balanced wording in our familiar day-aware greetings.
-    if(/^Welcome to Monday Night Bingo!?$/i.test(message))breakAt=2;
-    else if(/^Join us for Monday Night Bingo!?$/i.test(message))breakAt=3;
-    var lines=pieces.length>1?[pieces.slice(0,breakAt).join(' '),pieces.slice(breakAt).join(' ')]:[message];
-    var i=0;
-    lines.forEach(function(line){
-      var container=document.createElement('span');container.className='welcome-line';
-      Array.from(line).forEach(function(ch){
-        var span=document.createElement('span');span.className='neon-letter';
-        span.style.setProperty('--i',String(i++));span.textContent=ch===' '?'\u00a0':ch;
-        container.appendChild(span);
-      });
-      greet.appendChild(container);
+    var line=document.createElement('span');line.className='welcome-line';
+    Array.from(message).forEach(function(ch,i){
+      var letter=document.createElement('span');letter.className='neon-letter';
+      letter.style.setProperty('--i',String(i));
+      letter.textContent=ch===' '?'\u00a0':ch;
+      line.appendChild(letter);
     });
+    greet.appendChild(line);
   }
   // Keep the plain-text greeting separately: the animated letter spans contain
   // nonbreaking spaces, so comparing element.textContent against normal spaces
@@ -695,20 +687,24 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     prepareWelcomeNeon();
     fitWelcomeText();
   }
-  /* Fit each new greeting line without distorting type. Keep date/time independent. */
+  /* Fit greeting and clock by natural text width. Never stretch glyphs. */
   function fitWelcomeText(){
-    var greet=el('welcomeGreeting'), info=document.querySelector('.welcome-info');
+    var greet=el('welcomeGreeting'),info=document.querySelector('.welcome-info');
     if(!greet||!info)return;
-    var lines=[].slice.call(greet.querySelectorAll('.welcome-line'));
-    greet.style.fontSize='116px';
-    var target=1420, widest=Math.max.apply(null,lines.map(function(n){return n.scrollWidth;}));
-    greet.style.fontSize=(widest>target?Math.max(55,116*target/widest):116).toFixed(2)+'px';
-    info.style.fontSize='58px';
-    var kids=[].slice.call(info.children), widths=kids.reduce(function(n,x){return n+x.getBoundingClientRect().width;},0);
-    var gap=parseFloat(getComputedStyle(info).columnGap)||34;
-    var maxWidth=info.clientWidth-70;
-    if(widths+gap*(kids.length-1)>maxWidth){
-      info.style.fontSize=(58*maxWidth/(widths+gap*(kids.length-1))).toFixed(2)+'px';
+    var line=greet.querySelector('.welcome-line');
+    greet.style.fontSize='108px';
+    if(line){
+      var measured=line.getBoundingClientRect().width;
+      var target=greet.clientWidth-12;
+      if(measured>target)greet.style.fontSize=(108*target/measured).toFixed(2)+'px';
+    }
+    info.style.fontSize='60px';
+    var children=[].slice.call(info.children);
+    var widths=children.reduce(function(sum,node){return sum+node.getBoundingClientRect().width;},0);
+    var gap=parseFloat(getComputedStyle(info).columnGap)||35;
+    var allowed=info.clientWidth-100;
+    if(widths+gap*(children.length-1)>allowed){
+      info.style.fontSize=(60*allowed/(widths+gap*(children.length-1))).toFixed(2)+'px';
     }
   }
   function fit(){var s=Math.min(window.innerWidth/1920,window.innerHeight/1080),f=el('frame'); f.style.width=(1920*s)+'px'; f.style.height=(1080*s)+'px'; el('stage').style.transform='scale('+s+')'; fitWelcomeText();}
@@ -746,7 +742,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     kitchenScene.classList.toggle('single-offer',!hasSecondary);
   }
   function apply(){
-    // Jackpot headline is fixed for v4.62. The sheet is updated to match.
+    // Jackpot headline is fixed for v4.63. The sheet is updated to match.
     data.jackpotTitle="This Week's Jackpot!";
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle==='Monday Night Bingo Additional Jackpot' ? 'Additional Jackpot' : (data.promoTitle||'Additional Jackpot'));
@@ -841,7 +837,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   /* v4.45: Watch the published index.html, not a separate manifest.
      Future versions need only update their existing HTML version number.
      The check is cache-busted and does not require Google Sheets or extra tokens. */
-  var runningSiteVersion='4.62';
+  var runningSiteVersion='4.63';
   var pendingSiteVersion='';
   var checkingSiteVersion=false;
   function checkForSiteUpdate(){
