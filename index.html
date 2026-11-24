@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>WTVFC Digital Signage v4.58</title>
+<title>WTVFC Digital Signage v4.59</title>
 <meta name="wtvfc-build-version" content="4.55">
 <style>
 *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060912;color:#fff}
@@ -26,7 +26,7 @@ button,input,textarea{font:inherit}
 .center-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:1500px;max-width:88%}
 .screen-reader-status{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* Welcome screen restored */
-.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.58') center center/cover no-repeat}
+.welcome .scene-bg{background:url('wtvfc-welcome-banner.png?site=v4.59') center center/cover no-repeat}
 .welcome-message {position:absolute;top:417px;left:72px;right:72px;text-align:center;
  font-size:98px;line-height:1.12;font-weight:900;letter-spacing:-2.8px;white-space:nowrap;
  color:#fff2cb;text-shadow:0 3px 4px #260608,0 9px 22px #000,0 0 22px #b73d1566;}
@@ -84,7 +84,7 @@ button,input,textarea{font:inherit}
 .jackpot .title{font-size:120px;line-height:1.02;margin:0 0 14px;font-weight:700}
 .jackpot .amount{font-size:360px;line-height:.92;margin:0;overflow:visible}
 .jackpot .count{font-size:72px;line-height:1.05;margin-top:44px;font-weight:700}
-/* v4.58: Jackpot-style weekly headline above existing 2x2 card layouts. */
+/* v4.59: Jackpot-style weekly headline above existing 2x2 card layouts. */
 .games .weekly-screen-title,.earlybird .weekly-screen-title{
   position:absolute;top:30px;left:110px;right:110px;margin:0;
   font-size:96px;line-height:1.05;font-weight:700;text-align:center;
@@ -127,7 +127,7 @@ button,input,textarea{font:inherit}
 .kitchen .headline-line{height:4px;background:rgba(255,255,255,.85);flex:1;transform:translateY(-16px)}
 .kitchen .bottom-line{position:absolute;left:150px;right:150px;bottom:146px;height:4px;background:rgba(255,255,255,.85)}
 .kitchen .disclaimer{position:absolute;right:150px;bottom:102px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:18px;line-height:1.15;font-weight:400;letter-spacing:.01em;color:rgba(255,255,255,.82);text-align:right;text-shadow:0 1px 2px rgba(0,0,0,.65);max-width:900px}
-/* v4.58: Supports either one featured kitchen special or two stacked specials.
+/* v4.59: Supports either one featured kitchen special or two stacked specials.
    If the second special is blank, the kitchen page automatically switches to a single-offering layout. Text and price fields remain live Google Sheets values.
    Original 1920×1080 artwork stage. All sizes preserve proportions. */
 .kitchen .menu-layout{position:absolute;inset:0;pointer-events:none}
@@ -159,7 +159,7 @@ button,input,textarea{font:inherit}
    Any pointer movement immediately restores it; controls/settings keep it visible. */
 body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 
-/* v4.58: Optional static poster screens added after Kitchen. */
+/* v4.59: Optional static poster screens added after Kitchen. */
 .poster-screen .scene-bg{background:#020611;display:flex;align-items:center;justify-content:center}
 .poster-screen .scene-bg img{display:block;width:100%;height:100%;object-fit:cover}
 
@@ -377,7 +377,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </head>
 <body>
 <div class="viewport"><div id="frame" class="frame"><div id="stage" class="stage">
-<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.58" type="video/mp4"></video>
+<video id="goldSequenceVideo" class="gold-sequence-video" muted playsinline preload="auto" loop><source src="gold-background.mp4?site=v4.59" type="video/mp4"></video>
 <section class="scene welcome active" data-scene="welcome">
   <div class="scene-bg"></div><div class="content">
     <div class="welcome-message" id="welcomeGreeting">Join us for Monday Night Bingo!</div>
@@ -425,7 +425,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene promo" data-scene="promo">
-  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.58" type="video/mp4"></video></div>
+  <div class="scene-bg"><video id="promoVideo" muted playsinline preload="metadata"><source src="specialjackpot.mp4?site=v4.59" type="video/mp4"></video></div>
   <div class="content serif center-stack" style="width:1700px;max-width:94%">
     <h1 class="date motion-slam" id="promoDate">December 7th</h1>
     <h2 class="title motion-rise" id="promoTitle">Additional Jackpot</h2>
@@ -435,13 +435,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   </div>
 </section>
 <section class="scene kitchen single-offer" data-scene="kitchen">
-  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.58" type="video/mp4"></video></div>
+  <div class="scene-bg blue-bg"><video id="kitchenVideo" muted playsinline preload="metadata"><source src="kitchen-background.mp4?site=v4.59" type="video/mp4"></video></div>
   <div class="content serif">
     <div class="frame-box" aria-hidden="true"></div>
     <div class="headline-wrap"><h1 class="headline" id="kitchenTitle">This Week's Kitchen Special</h1><div class="headline-line"></div></div>
     <div class="menu-layout">
       <div class="offer primary">
-        <div class="food-spot" aria-hidden="true"><img src="pierogies_with_fountain_drink.png?site=v4.58" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="pierogies_with_fountain_drink.png?site=v4.59" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial1Title">Pierogies</h2>
           <p class="dish-line" id="kitchenSpecial1Line1">butter and onions and a fountain drink</p>
@@ -451,7 +451,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       </div>
       <div class="offer-divider"></div>
       <div class="offer secondary">
-        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.58" alt=""></div>
+        <div class="food-spot" aria-hidden="true"><img src="loaded_fries.png?site=v4.59" alt=""></div>
         <div class="dish-wrap">
           <h2 class="dish-title" id="kitchenSpecial2Title"></h2>
           <p class="dish-line" id="kitchenSpecial2Line1"></p>
@@ -466,19 +466,19 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
 </section>
 
 <section class="scene poster-screen" data-scene="poster1">
-  <div class="scene-bg"><img src="gift-certificates-screen.png?site=v4.58" alt="Washington Township Volunteer Fire Company Gift Certificates Now Available promotional screen"></div>
+  <div class="scene-bg"><img src="gift-certificates-screen.png?site=v4.59" alt="Washington Township Volunteer Fire Company Gift Certificates Now Available promotional screen"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster2">
-  <div class="scene-bg"><img src="santas-helper-bash-screen.png?site=v4.58" alt="Santa's Helper Bash holiday event at Washington Township Volunteer Fire Company, December 13, 2026"></div>
+  <div class="scene-bg"><img src="santas-helper-bash-screen.png?site=v4.59" alt="Santa's Helper Bash holiday event at Washington Township Volunteer Fire Company, December 13, 2026"></div>
 </section>
 <section class="scene poster-screen" data-scene="poster3">
-  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.58" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
+  <div class="scene-bg"><img src="facebook-follow-qr-screen.png?site=v4.59" alt="Follow Washington Township Volunteer Fire Company on Facebook. QR code linking to its Facebook page."></div>
 </section>
 <section class="scene poster-screen" data-scene="poster4">
-  <div class="scene-bg"><img src="wifi-guest-screen.png?site=v4.58" alt="Free guest Wi-Fi information for Washington Township Volunteer Fire Company, including QR code, network name, and password."></div>
+  <div class="scene-bg"><img src="wifi-guest-screen.png?site=v4.59" alt="Free guest Wi-Fi information for Washington Township Volunteer Fire Company, including QR code, network name, and password."></div>
 </section>
 </div></div></div>
-<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.58">v4.58</button>
+<button type="button" class="version-trigger" id="versionToggle" aria-expanded="false" aria-controls="kioskControls" aria-label="Open signage controls, version 4.59">v4.59</button>
 <div class="controls" id="kioskControls" hidden>
   <button id="prev" type="button">◀ Previous</button>
   <button id="next" type="button">▶ Next</button>
@@ -486,11 +486,11 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   <button id="settings" type="button">⚙ Settings</button>
 </div>
 <aside id="panel" class="panel">
-  <h2>WTVFC Digital Signage · v4.58</h2>
+  <h2>WTVFC Digital Signage · v4.59</h2>
   <p>Single Haluski kitchen special; the second menu slot hides when its Google Sheets fields are blank.</p>
   <h3>Google Sheets — Remote Updates</h3>
-  <p>Use the public read-only Apps Script Web App URL after deploying Code.gs. Your spreadsheet stays private to editors.</p>
-  <label for="sheetEndpoint">Apps Script Web App URL (ends in /exec)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+  <p>The public, read-only Google Sheets endpoint is preconfigured for every device. Existing manually saved settings still work. The spreadsheet remains editable only by authorized editors.</p>
+  <label for="sheetEndpoint">Public Apps Script URL (already configured)</label><input id="sheetEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec">
   <label for="contentMode">Content source</label>
   <select id="contentMode" style="width:100%;padding:10px;background:#1d2940;color:white;border:1px solid #60708f;border-radius:6px"><option value="remote">Google Sheets (automatic)</option><option value="local">Local Settings only</option></select>
   <p id="sheetStatus" role="status">Remote connection not configured.</p>
@@ -562,9 +562,14 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   var storeKey='wtvfc_signage_v48';
   var remoteConfigKey='wtvfc_remote_v435';
   var remoteCacheKey='wtvfc_remote_cache_v435';
-  var remoteConfig={endpoint:'',mode:'remote'};
+  // v4.59: The deployed read-only signage feed is public and shared by every visitor.
+  // No per-browser setup is necessary; explicit existing local overrides are retained.
+  var sharedSheetEndpoint='https://script.google.com/macros/s/AKfycbza4nkEmTuZJzD-Z4GJuFKIDRPnXfkCI3CQXDUwgu2wIXuqTcpnXhI5RP5tNRNNhJSG/exec';
+  var remoteConfig={endpoint:sharedSheetEndpoint,mode:'remote'};
   var remoteCache=null;
   try{remoteConfig=Object.assign(remoteConfig,JSON.parse(localStorage.getItem(remoteConfigKey)||'null')||{});remoteCache=JSON.parse(localStorage.getItem(remoteCacheKey)||'null');}catch(e){}
+  // Prior versions saved an empty URL on new browsers. Recover to the shared feed.
+  if(!remoteConfig.endpoint || !String(remoteConfig.endpoint).trim()) remoteConfig.endpoint=sharedSheetEndpoint;
   var legacyKeys=['wtvfc_signage_v41','wtvfc_signage_v40']; // Maintain production settings across the upgrade.
   var data=Object.assign({},defaults);
   try{
@@ -590,7 +595,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       data=Object.assign(data,saved);
     }
   }catch(e){}
-  // v4.58: Upgrade only the outdated promo heading. Do not alter other saved settings.
+  // v4.59: Upgrade only the outdated promo heading. Do not alter other saved settings.
   if(!data.promoTitle || data.promoTitle==='Monday Night Bingo Additional Jackpot')data.promoTitle='Additional Jackpot';
   // Apply current week's new menu once per installation, while preserving all other saved settings.
   // The remote spreadsheet will continue to override these with the same editable values.
@@ -603,7 +608,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_initialized_v448','1');
     }
   } catch(e){}
-  // v4.58: Existing installations can have a stale 4.45 kitchen tab cached.
+  // v4.59: Existing installations can have a stale 4.45 kitchen tab cached.
   // Discard only that tab's cached values on this one-time upgrade, preserving
   // all other Google Sheets values, remote endpoint, and user preferences.
   try {
@@ -615,9 +620,9 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_kitchen_cache_migrated_v448', '1');
     }
   } catch(e) {}
-  // v4.58: Upgrade the old kitchen heading in local storage without changing other settings.
+  // v4.59: Upgrade the old kitchen heading in local storage without changing other settings.
   if(data.kitchenTitle==='Kitchen Special'||!data.kitchenTitle) data.kitchenTitle="This Week's Kitchen Special";
-  // v4.58: Move the three existing optional screens from 10-second defaults to 15 seconds once.
+  // v4.59: Move the three existing optional screens from 10-second defaults to 15 seconds once.
   // Preserve the user’s unrelated saved settings and Google Sheets endpoint.
   try {
     if(!localStorage.getItem('wtvfc_poster_timing_v455')){
@@ -626,7 +631,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_poster_timing_v455','1');
     }
   }catch(e){}
-  // v4.58: Initialize the new optional Guest Wi-Fi screen without disturbing other saved settings.
+  // v4.59: Initialize the new optional Guest Wi-Fi screen without disturbing other saved settings.
   try {
     if(!localStorage.getItem('wtvfc_wifi_screen_initialized_v456')){
       if(typeof data.poster4Seconds==='undefined' || data.poster4Seconds==='') data.poster4Seconds='15';
@@ -635,7 +640,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
       localStorage.setItem('wtvfc_wifi_screen_initialized_v456','1');
     }
   }catch(e){}
-  // v4.58: Initialize Pierogies special once; preserve every other local setting.
+  // v4.59: Initialize Pierogies special once; preserve every other local setting.
   try {
     if(!localStorage.getItem('wtvfc_kitchen_initialized_v458')){
       ['kitchenSpecial1TitleInput','kitchenSpecial1Line1Input','kitchenSpecial1Line2Input',
@@ -745,7 +750,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     kitchenScene.classList.toggle('single-offer',!hasSecondary);
   }
   function apply(){
-    // Jackpot headline is fixed for v4.58. The sheet is updated to match.
+    // Jackpot headline is fixed for v4.59. The sheet is updated to match.
     data.jackpotTitle="This Week's Jackpot!";
     setText('jackpotTitle', data.jackpotTitle||'Tonight\'s Jackpot');
     setText('promoTitle', data.promoTitle==='Monday Night Bingo Additional Jackpot' ? 'Additional Jackpot' : (data.promoTitle||'Additional Jackpot'));
@@ -834,13 +839,13 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
     script.src=endpoint+(endpoint.indexOf('?')<0?'?':'&')+'callback='+encodeURIComponent(id)+'&_='+Date.now();
     document.head.appendChild(script);
   }
-  function saveRemoteConfig(){remoteConfig.endpoint=el('sheetEndpoint').value.trim();remoteConfig.mode=el('contentMode').value;try{localStorage.setItem(remoteConfigKey,JSON.stringify(remoteConfig));}catch(e){}}
+  function saveRemoteConfig(){remoteConfig.endpoint=el('sheetEndpoint').value.trim()||sharedSheetEndpoint;remoteConfig.mode=el('contentMode').value;if(el('sheetEndpoint'))el('sheetEndpoint').value=remoteConfig.endpoint;try{localStorage.setItem(remoteConfigKey,JSON.stringify(remoteConfig));}catch(e){}}
   function getDuration(sceneName){ var key=durationMap[sceneName]; return Math.max(4,Math.min(120,Number(data[key])||8)); }
   function schedule(){ clearTimeout(timer); if(paused||panel.classList.contains('open')||document.hidden) return; timer=setTimeout(function(){show(currentIndex+1);}, getDuration(sceneOrder[currentIndex])*1000); }
   /* v4.45: Watch the published index.html, not a separate manifest.
      Future versions need only update their existing HTML version number.
      The check is cache-busted and does not require Google Sheets or extra tokens. */
-  var runningSiteVersion='4.55';
+  var runningSiteVersion='4.59';
   var pendingSiteVersion='';
   var checkingSiteVersion=false;
   function checkForSiteUpdate(){
@@ -958,7 +963,7 @@ body.cursor-idle, body.cursor-idle * { cursor:none !important; }
   applyRemoteCache();
   apply(); fitWelcomeText(); show(0); showCursor();
   if(remoteConfig.endpoint&&remoteConfig.mode==='remote')refreshRemote();
-  else remoteStatus('Paste an Apps Script /exec URL and Save & Apply.');
+  else remoteStatus(remoteConfig.mode==='local'?'Local settings mode — remote updates paused.':'Unable to connect — using saved/default values.');
   el('sheetSync').addEventListener('click',function(){saveRemoteConfig();clearTimeout(remoteScheduled);refreshRemote(true);});
 })();
 </script>
